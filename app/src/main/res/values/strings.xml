@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Notes</string>
+    <string name="title">Title</string>
+    <string name="text">Text</string>
+
+    <string name="empty_title_massage">Enter the title name</string>
+    <string name="save">Save</string>
+</resources>

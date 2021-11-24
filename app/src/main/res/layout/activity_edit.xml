@@ -24,7 +24,7 @@
             android:gravity="start|top"
             android:hint="@string/title"
             android:inputType="text"
-            android:minHeight="48dp"
+            android:minHeight="@dimen/edit_height"
             android:textSize="@dimen/title_text_size"
             android:textStyle="bold"
             android:importantForAutofill="no"/>
@@ -40,7 +40,7 @@
             android:gravity="start|top"
             android:hint="@string/text"
             android:inputType="textMultiLine"
-            android:minHeight="48dp"
+            android:minHeight="@dimen/edit_height"
             android:textSize="@dimen/text_size"
             android:importantForAutofill="no"/>
 

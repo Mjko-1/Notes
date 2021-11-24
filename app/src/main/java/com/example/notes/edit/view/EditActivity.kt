@@ -14,26 +14,15 @@ class EditActivity : AppCompatActivity(), EditNote.View {
 
     private lateinit var binding: ActivityEditBinding
 
-    private lateinit var saveButton: Button
-    private lateinit var title: EditText
-    private lateinit var text: EditText
-
-    private lateinit var presenter : EditNote.Presenter
+    private lateinit var presenter: EditNote.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        saveButton = binding.buttonSave
-        text = binding.editText
-        title = binding.editTitle
+        initView()
         presenter = EditPresenter(this)
-
-
-        saveButton.setOnClickListener {
-            presenter.saveNote(title.text.toString(),text.text.toString())
-        }
     }
 
     override fun showMessage(massage: String) {
@@ -44,5 +33,10 @@ class EditActivity : AppCompatActivity(), EditNote.View {
         Toast.makeText(this, R.string.empty_title_massage, Toast.LENGTH_SHORT).show()
     }
 
+    private fun initView() = with(binding) {
+        buttonSave.setOnClickListener {
+            presenter.saveNote(editTitle.text.toString(), editText.text.toString())
+        }
+    }
 }
 

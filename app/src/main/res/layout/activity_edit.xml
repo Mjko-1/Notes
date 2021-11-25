@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".edit.view.EditActivity">
 
     <LinearLayout
@@ -23,39 +22,27 @@
             android:background="@android:color/transparent"
             android:gravity="start|top"
             android:hint="@string/title"
+            android:importantForAutofill="no"
             android:inputType="text"
             android:minHeight="@dimen/edit_height"
             android:textSize="@dimen/title_text_size"
-            android:textStyle="bold"
-            android:importantForAutofill="no"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin_edit_activity"
             android:layout_marginTop="@dimen/margin_edit_activity"
             android:layout_marginRight="@dimen/margin_edit_activity"
             android:background="@android:color/transparent"
             android:gravity="start|top"
             android:hint="@string/text"
+            android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:minHeight="@dimen/edit_height"
-            android:textSize="@dimen/text_size"
-            android:importantForAutofill="no"/>
+            android:textSize="@dimen/text_size" />
 
-        <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/MaterialAlertDialog.MaterialComponents.Title.Icon"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/margin_edit_activity"
-            android:layout_marginBottom="@dimen/margin_edit_activity"
-            android:backgroundTint="@color/purple"
-            android:text="@string/save"
-            android:textStyle="bold"
-            />
 
     </LinearLayout>
 </ScrollView>

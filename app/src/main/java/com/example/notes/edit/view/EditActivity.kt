@@ -1,14 +1,16 @@
 package com.example.notes.edit.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.example.notes.R
 import com.example.notes.databinding.ActivityEditBinding
 import com.example.notes.edit.EditNote
 import com.example.notes.edit.presenter.EditPresenter
+import com.example.notes.main.MainActivity
 
 class EditActivity : AppCompatActivity(), EditNote.View {
 
@@ -21,7 +23,7 @@ class EditActivity : AppCompatActivity(), EditNote.View {
         binding = ActivityEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initView()
+        initActionBar()
         presenter = EditPresenter(this)
     }
 
@@ -29,14 +31,41 @@ class EditActivity : AppCompatActivity(), EditNote.View {
         Toast.makeText(this, massage, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showMassageEmpty() {
-        Toast.makeText(this, R.string.empty_title_massage, Toast.LENGTH_SHORT).show()
+    override fun showMessageEmpty() {
+        Toast.makeText(this, R.string.empty_text_massage, Toast.LENGTH_SHORT).show()
     }
 
-    private fun initView() = with(binding) {
-        buttonSave.setOnClickListener {
-            presenter.saveNote(editTitle.text.toString(), editText.text.toString())
+    private fun initActionBar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.edit_note)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.edit_toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = with(binding) {
+        when (item.itemId) {
+            android.R.id.home -> {
+                startActivity(Intent(this@EditActivity, MainActivity::class.java))
+            }
+            R.id.buttonShare -> {
+                presenter.shareNote(editTitle.text.toString(), editText.text.toString())
+                }
+            R.id.buttonSave -> presenter.saveNote(
+                editTitle.text.toString(),
+                editText.text.toString()
+            )
         }
+        return true
+    }
+
+    override fun shareText(noteText: String) {
+        startActivity(Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, noteText)
+        })
     }
 }
 

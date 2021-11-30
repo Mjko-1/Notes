@@ -2,7 +2,7 @@ package com.example.notes.edit.presenter
 
 import com.example.notes.edit.EditNote
 
-class EditPresenter (private val view: EditNote.View) : EditNote.Presenter {
+class EditPresenter(private val view: EditNote.View) : EditNote.Presenter {
 
     override fun saveNote(title: String, text: String) {
         if (text.isEmpty()) view.showMessageEmpty()
@@ -13,7 +13,10 @@ class EditPresenter (private val view: EditNote.View) : EditNote.Presenter {
     }
 
     override fun shareNote(title: String, text: String) {
-        val noteText = if (title.isEmpty()) text else "${title}\n${text}"
-        view.shareText(noteText)
+        if (title.isEmpty() || text.isEmpty()) view.showMessage("Note is empty")
+        else {
+            val noteText = if (title.isEmpty()) text else "${title}\n${text}"
+            view.shareText(noteText)
+        }
     }
 }

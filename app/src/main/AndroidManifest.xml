@@ -11,12 +11,11 @@
         android:theme="@style/Theme.Notes">
 
         <activity
-            android:name=".main.MainActivity"
+            android:name=".edit.view.EditActivity"
             android:exported="true" />
 
         <activity
-
-            android:name=".edit.view.EditActivity"
+            android:name=".main.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,20 +1,17 @@
 package com.example.notes.main.view
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.notes.Constant
 import com.example.notes.NoteItem
+import com.example.notes.NoteItemDiffCallback
 import com.example.notes.R
 import com.example.notes.databinding.NoteItemBinding
 
-class YourNotesAdapter(
-    private val values: List<NoteItem>,
-    private val activity: MainActivity
-) :
-    RecyclerView.Adapter<YourNotesAdapter.NoteHolder>() {
+class YourNotesAdapter(private var onClick: (note: NoteItem) -> Unit) :
+    ListAdapter<NoteItem, YourNotesAdapter.NoteHolder>(NoteItemDiffCallback()) {
 
     inner class NoteHolder(item: View) : RecyclerView.ViewHolder(item) {
 
@@ -26,15 +23,7 @@ class YourNotesAdapter(
             textData.text = note.dateOfCreation
 
             cardViewNote.setOnClickListener {
-                activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                val bundle = Bundle().apply {
-                    putSerializable(Constant.NOTE_TAG, note)
-                }
-
-                val fragmentToManager = NoteDescriptionFragment.newInstance()
-                fragmentToManager.arguments = bundle
-
-                activity.openFragment(R.id.fragment_container, fragmentToManager, true)
+                onClick(note)
             }
         }
     }
@@ -50,8 +39,6 @@ class YourNotesAdapter(
     }
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-        holder.bind(values[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount() = values.size
 }

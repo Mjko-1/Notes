@@ -7,7 +7,7 @@ import com.example.notes.NoteItem
  * Объект, который пока моделирует работу с базой данных.
  * */
 
-object NoteListModel {
+object NoteListRepository {
 
     private val listOfNotes = mutableListOf<NoteItem>().apply {
         add(
@@ -57,7 +57,12 @@ object NoteListModel {
         )
     }
 
+    private var autoIncrementId: Long = 0
+
     fun addNoteToList(note: NoteItem) {
+        if (note.id == NoteItem.UNDEFINED_ID) {
+            note.id = autoIncrementId++
+        }
         listOfNotes.add(0, note)
     }
 

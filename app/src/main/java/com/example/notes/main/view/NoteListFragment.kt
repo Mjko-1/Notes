@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.notes.FragmentOpener
+import com.example.notes.InteractsWithHomeButton
+import com.example.notes.R
 import com.example.notes.databinding.FragmentNoteListBinding
 import com.example.notes.edit.view.EditActivity
+import com.example.notes.main.MainNote
 import com.example.notes.main.presenter.MainPresenter
 
 class NoteListFragment : Fragment() {
 
-    private lateinit var binding: FragmentNoteListBinding
+    private var binding: FragmentNoteListBinding? = null
 
     private lateinit var adapter: YourNotesAdapter
 
@@ -24,16 +28,32 @@ class NoteListFragment : Fragment() {
     ): View {
         binding = FragmentNoteListBinding.inflate(inflater)
 
-        return binding.root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
+        binding?.apply {
 
-            presenter = MainPresenter(activity as MainActivity)
+            presenter = MainPresenter(requireActivity() as? MainNote.View)
 
-            updateUi()
+            adapter = YourNotesAdapter {
+                (activity as InteractsWithHomeButton).showHomeButton()
+                val bundle = Bundle().apply {
+                    putSerializable(NoteDescriptionFragment.NOTE_TAG, it)
+                }
+
+                val fragmentToManager = NoteDescriptionFragment.newInstance()
+                fragmentToManager.arguments = bundle
+
+                (activity as FragmentOpener).openFragment(
+                    R.id.fragment_container,
+                    fragmentToManager,
+                    true
+                )
+            }
+
+            list.adapter = adapter
 
             fabAddNote.setOnClickListener {
                 requireActivity().startActivity(
@@ -46,19 +66,17 @@ class NoteListFragment : Fragment() {
         }
     }
 
-    /**
-     * Как лучше организовать обновление данных?
-     *
-     * На данный момент это неоптимизированный костыль.
-     * */
-    override fun onStart() {
-        super.onStart()
-        updateUi()
+    override fun onResume() {
+        super.onResume()
+        adapter.submitList(presenter.getNoteData())
     }
 
-    private fun updateUi() = with(binding) {
-        adapter = YourNotesAdapter(presenter.getNoteData(), activity as MainActivity)
-        list.adapter = adapter
+    override fun onDestroyView() {
+        binding?.apply {
+            list.adapter = null
+        }
+        binding = null
+        super.onDestroyView()
     }
 
     companion object {

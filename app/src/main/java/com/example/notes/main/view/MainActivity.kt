@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.notes.FragmentOpener
 import com.example.notes.databinding.ActivityMainBinding
+import com.example.notes.InteractsWithHomeButton
 import com.example.notes.main.MainNote
 import com.example.notes.main.presenter.MainPresenter
 
-class MainActivity : AppCompatActivity(), MainNote.View {
+class MainActivity : AppCompatActivity(), MainNote.View, FragmentOpener, InteractsWithHomeButton {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -48,5 +50,7 @@ class MainActivity : AppCompatActivity(), MainNote.View {
         }
     }
 
-
+    override fun showHomeButton() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 }

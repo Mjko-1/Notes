@@ -2,7 +2,6 @@ package com.example.notes.model
 
 import com.example.notes.NoteItem
 
-
 /**
  * Объект, который пока моделирует работу с базой данных.
  * */

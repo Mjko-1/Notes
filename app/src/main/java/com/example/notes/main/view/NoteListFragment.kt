@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.notes.FragmentOpener
-import com.example.notes.InteractsWithHomeButton
-import com.example.notes.R
 import com.example.notes.databinding.FragmentNoteListBinding
 import com.example.notes.edit.view.EditActivity
 import com.example.notes.main.MainNote
@@ -20,7 +17,7 @@ class NoteListFragment : Fragment() {
 
     private lateinit var adapter: YourNotesAdapter
 
-    private lateinit var presenter: MainPresenter
+    private var presenter: MainPresenter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,19 +35,7 @@ class NoteListFragment : Fragment() {
             presenter = MainPresenter(requireActivity() as? MainNote.View)
 
             adapter = YourNotesAdapter {
-                (activity as InteractsWithHomeButton).showHomeButton()
-                val bundle = Bundle().apply {
-                    putSerializable(NoteDescriptionFragment.NOTE_TAG, it)
-                }
-
-                val fragmentToManager = NoteDescriptionFragment.newInstance()
-                fragmentToManager.arguments = bundle
-
-                (activity as FragmentOpener).openFragment(
-                    R.id.fragment_container,
-                    fragmentToManager,
-                    true
-                )
+                presenter?.openNote(it)
             }
 
             list.adapter = adapter
@@ -68,13 +53,15 @@ class NoteListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        adapter.submitList(presenter.getNoteData())
+        adapter.submitList(presenter?.getNoteData())
+        (requireActivity() as? MainNote.View)?.displayActionBar(true)
     }
 
     override fun onDestroyView() {
         binding?.apply {
             list.adapter = null
         }
+        presenter = null
         binding = null
         super.onDestroyView()
     }

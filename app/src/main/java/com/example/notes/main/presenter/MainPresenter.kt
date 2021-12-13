@@ -34,4 +34,8 @@ class MainPresenter(var view: MainNote.View?) : MainNote.Presenter {
             view?.shareText(noteText)
         }
     }
+
+    override fun openEditActivity() {
+        view?.openEditActivity()
+    }
 }

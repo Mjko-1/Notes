@@ -1,13 +1,11 @@
 package com.example.notes.main.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.notes.databinding.FragmentNoteListBinding
-import com.example.notes.edit.view.EditActivity
 import com.example.notes.main.MainNote
 import com.example.notes.main.presenter.MainPresenter
 
@@ -23,9 +21,9 @@ class NoteListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentNoteListBinding.inflate(inflater)
-
-        return binding!!.root
+        return FragmentNoteListBinding.inflate(inflater).also {
+            binding = it
+        }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,12 +39,7 @@ class NoteListFragment : Fragment() {
             list.adapter = adapter
 
             fabAddNote.setOnClickListener {
-                requireActivity().startActivity(
-                    Intent(
-                        activity?.baseContext,
-                        EditActivity::class.java
-                    )
-                )
+                presenter?.openEditActivity()
             }
         }
     }

@@ -11,6 +11,7 @@ import com.example.notes.NoteItem
 import com.example.notes.R
 import com.example.notes.about.AboutActivity
 import com.example.notes.databinding.ActivityMainBinding
+import com.example.notes.edit.view.EditActivity
 import com.example.notes.main.MainNote
 import com.example.notes.main.presenter.MainPresenter
 
@@ -89,6 +90,10 @@ class MainActivity : AppCompatActivity(), MainNote.View {
     override fun displayActionBar(condition: Boolean) {
         if (condition) supportActionBar?.show()
         else supportActionBar?.hide()
+    }
+
+    override fun openEditActivity() {
+        startActivity(Intent(this, EditActivity::class.java))
     }
 
     override fun openNoteDescription(note: NoteItem) {

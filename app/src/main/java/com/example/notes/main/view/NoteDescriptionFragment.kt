@@ -29,8 +29,9 @@ class NoteDescriptionFragment : Fragment() {
             note = requireArguments().getSerializable(NOTE_TAG) as NoteItem
         }
 
-        binding = FragmentNoteDescriptionBinding.inflate(inflater)
-        return binding!!.root
+        return FragmentNoteDescriptionBinding.inflate(inflater).also {
+            binding = it
+        }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,7 +41,7 @@ class NoteDescriptionFragment : Fragment() {
 
         toolbarAction()
 
-        with(binding!!) {
+        binding?.apply {
             editTitle.setText(note.title)
             editText.setText(note.text)
             textDate.text = note.dateOfCreation

@@ -2,19 +2,22 @@ package com.example.notes.main.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.notes.InteractingWithToolbar
 import com.example.notes.NoteItem
 import com.example.notes.R
 import com.example.notes.about.AboutActivity
 import com.example.notes.databinding.ActivityMainBinding
+import com.example.notes.edit.view.EditActivity
 import com.example.notes.main.MainNote
 import com.example.notes.main.presenter.MainPresenter
+import com.example.notes.model.NoteDatabase
+import com.example.notes.viewPager.NotesPagerActivity
 
-class MainActivity : AppCompatActivity(), MainNote.View {
+class MainActivity : AppCompatActivity(), MainNote.View, InteractingWithToolbar {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -25,9 +28,9 @@ class MainActivity : AppCompatActivity(), MainNote.View {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initActionBar()
+        initToolbar()
 
-        presenter = MainPresenter(this)
+        presenter = MainPresenter(this, NoteDatabase.getInstance(this))
 
         openFragment(binding.fragmentContainer.id, NoteListFragment.newInstance(), false)
     }
@@ -37,21 +40,15 @@ class MainActivity : AppCompatActivity(), MainNote.View {
         super.onDestroy()
     }
 
-    private fun initActionBar() {
-        supportActionBar?.title = getString(R.string.main_activity_actionbar_text)
-    }
+    private fun initToolbar() = with(binding) {
+        setSupportActionBar(mainActivityToolbar)
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_toolbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onBackPressed()
-            R.id.buttonAbout -> startActivity(Intent(this, AboutActivity::class.java))
+        buttonAbout.setOnClickListener {
+            startActivity(Intent(this@MainActivity, AboutActivity::class.java))
         }
-        return true
+        buttonOpenViewPager.setOnClickListener {
+            startActivity(Intent(this@MainActivity, NotesPagerActivity::class.java))
+        }
     }
 
     override fun onBackPressed() {
@@ -86,20 +83,24 @@ class MainActivity : AppCompatActivity(), MainNote.View {
         })
     }
 
-    override fun displayActionBar(condition: Boolean) {
-        if (condition) supportActionBar?.show()
-        else supportActionBar?.hide()
+    override fun openEditActivity() {
+        startActivity(Intent(this, EditActivity::class.java))
     }
 
     override fun openNoteDescription(note: NoteItem) {
-        displayActionBar(false)
+        displayToolbar(false)
         val bundle = Bundle().apply {
-            putSerializable(NoteDescriptionFragment.NOTE_TAG, note)
+            putParcelable(NoteDescriptionFragment.NOTE_TAG, note)
         }
 
         val fragmentToManager = NoteDescriptionFragment.newInstance()
         fragmentToManager.arguments = bundle
 
         openFragment(R.id.fragment_container, fragmentToManager, true)
+    }
+
+    override fun displayToolbar(condition: Boolean) {
+        if (condition) binding.appBarLayout.visibility = View.VISIBLE
+        else binding.appBarLayout.visibility = View.GONE
     }
 }

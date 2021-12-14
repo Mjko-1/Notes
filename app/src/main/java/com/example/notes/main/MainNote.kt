@@ -11,7 +11,8 @@ interface MainNote {
         fun showMessage(massage: String)
         fun showMessageEmpty()
         fun shareText(noteText: String)
-        fun displayActionBar(condition: Boolean)
+ //       fun displayActionBar(condition: Boolean)
+        fun openEditActivity()
     }
 
     interface Presenter {
@@ -20,5 +21,7 @@ interface MainNote {
         fun openNote(note: NoteItem)
         fun saveNote(title: String, text: String, note: NoteItem)
         fun shareNote(title: String, text: String)
+        fun openEditActivity()
+        fun showMessage(massage: String)
     }
 }

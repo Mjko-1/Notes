@@ -1,15 +1,15 @@
 package com.example.notes.main.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.notes.InteractingWithToolbar
 import com.example.notes.databinding.FragmentNoteListBinding
-import com.example.notes.edit.view.EditActivity
 import com.example.notes.main.MainNote
 import com.example.notes.main.presenter.MainPresenter
+import com.example.notes.model.NoteDatabase
 
 class NoteListFragment : Fragment() {
 
@@ -25,14 +25,19 @@ class NoteListFragment : Fragment() {
     ): View {
         binding = FragmentNoteListBinding.inflate(inflater)
 
-        return binding!!.root
+        return FragmentNoteListBinding.inflate(inflater).also {
+            binding = it
+        }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
 
-            presenter = MainPresenter(requireActivity() as? MainNote.View)
+            presenter = MainPresenter(
+                requireActivity() as? MainNote.View,
+                NoteDatabase.getInstance(requireContext())
+            )
 
             adapter = YourNotesAdapter {
                 presenter?.openNote(it)
@@ -41,12 +46,7 @@ class NoteListFragment : Fragment() {
             list.adapter = adapter
 
             fabAddNote.setOnClickListener {
-                requireActivity().startActivity(
-                    Intent(
-                        activity?.baseContext,
-                        EditActivity::class.java
-                    )
-                )
+                presenter?.openEditActivity()
             }
         }
     }
@@ -54,7 +54,7 @@ class NoteListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         adapter.submitList(presenter?.getNoteData())
-        (requireActivity() as? MainNote.View)?.displayActionBar(true)
+        (requireActivity() as? InteractingWithToolbar)?.displayToolbar(true)
     }
 
     override fun onDestroyView() {

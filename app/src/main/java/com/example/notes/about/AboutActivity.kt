@@ -3,20 +3,27 @@ package com.example.notes.about
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.example.notes.R
+import com.example.notes.databinding.ActivityAboutBinding
 
 class AboutActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityAboutBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        initActionBar()
+        initToolbar()
     }
 
-    private fun initActionBar() {
+    private fun initToolbar() = with(binding) {
+        setSupportActionBar(aboutActivityToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.about_activity_actionbar_text)
+
+        aboutActivityToolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

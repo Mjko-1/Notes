@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.notes.NoteItem
 import com.example.notes.R
 import com.example.notes.databinding.FragmentNoteDescriptionBinding
 import com.example.notes.main.MainNote
 import com.example.notes.main.presenter.MainPresenter
+import com.example.notes.model.NoteDatabase
 
 class NoteDescriptionFragment : Fragment() {
 
@@ -17,7 +19,7 @@ class NoteDescriptionFragment : Fragment() {
 
     private var presenter: MainPresenter? = null
 
-    private lateinit var note: NoteItem
+    private var note: NoteItem? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,26 +27,31 @@ class NoteDescriptionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        if (arguments != null && requireArguments().containsKey(NOTE_TAG)) {
-            note = requireArguments().getSerializable(NOTE_TAG) as NoteItem
+        if (arguments != null && arguments?.containsKey(NOTE_TAG) == true) {
+            note = arguments?.getParcelable(NOTE_TAG) as? NoteItem?
         }
 
-        binding = FragmentNoteDescriptionBinding.inflate(inflater)
-        return binding!!.root
+        return FragmentNoteDescriptionBinding.inflate(inflater).also {
+            binding = it
+        }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter = MainPresenter(requireActivity() as? MainNote.View)
+        presenter = MainPresenter(
+            requireActivity() as? MainNote.View,
+            NoteDatabase.getInstance(requireContext())
+        )
 
-        toolbarAction()
+        initToolbar()
 
-        with(binding!!) {
-            editTitle.setText(note.title)
-            editText.setText(note.text)
-            textDate.text = note.dateOfCreation
+        binding?.apply {
+            editTitle.setText(note?.title)
+            editText.setText(note?.text)
+            textDate.text = note?.dateOfCreation
         }
+
     }
 
     override fun onDestroyView() {
@@ -53,30 +60,42 @@ class NoteDescriptionFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun toolbarAction() {
+    private fun initToolbar() {
         binding?.apply {
-            toolbar.setNavigationIcon(R.drawable.ic_back)
-            toolbar.setNavigationOnClickListener {
+            buttonBack.setOnClickListener {
                 activity?.onBackPressed()
             }
-            toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.buttonSave -> {
-                        presenter?.saveNote(
-                            editTitle.text.toString(),
-                            editText.text.toString(),
-                            note
-                        )
-                        true
-                    }
-                    R.id.buttonShare -> {
-                        presenter?.shareNote(editTitle.text.toString(), editText.text.toString())
-                        true
-                    }
-                    else -> false
+            buttonSave.setOnClickListener {
+                if (editTitle.text.toString() == note?.title &&
+                    editText.text.toString() == note?.text
+                )
+                    presenter?.showMessage(getString(R.string.note_unchanged))
+                else note?.let { noteItem ->
+                    showDialog(
+                        editTitle.text.toString(),
+                        editText.text.toString(),
+                        noteItem
+                    )
                 }
             }
+            buttonShare.setOnClickListener {
+                presenter?.shareNote(editTitle.text.toString(), editText.text.toString())
+            }
         }
+    }
+
+    private fun showDialog(title: String, text: String, note: NoteItem) {
+        AlertDialog.Builder(requireContext())
+            .setMessage(getString(R.string.edit_dialog_massage))
+            .setCancelable(true)
+            .setPositiveButton(getString(R.string.positive_button_text)) { _, _ ->
+                presenter?.saveNote(title, text, note)
+            }
+            .setNegativeButton(getString(R.string.negative_button_text)) { negative, _ ->
+                negative.dismiss()
+            }
+            .create()
+            .show()
     }
 
     companion object {

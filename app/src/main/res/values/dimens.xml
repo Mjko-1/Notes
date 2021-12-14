@@ -14,5 +14,9 @@
     <dimen name="note_card_corner_radius">10dp</dimen>
     <dimen name="note_card_elevation">3dp</dimen>
     <dimen name="note_card_content_padding">10dp</dimen>
+    <dimen name="margin_end_last_button_in_toolbar">5dp</dimen>
+    <dimen name="min_size_of_button_in_toolbar">48dp</dimen>
+    <dimen name="toolbar_button_padding">8dp</dimen>
+    <dimen name="margin_end_second_button_in_toolbar">48dp</dimen>
 
 </resources>

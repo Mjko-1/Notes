@@ -3,15 +3,15 @@ package com.example.notes.main.presenter
 import androidx.fragment.app.Fragment
 import com.example.notes.NoteItem
 import com.example.notes.main.MainNote
-import com.example.notes.model.NoteListRepository
+import com.example.notes.model.NoteDatabase
 
-class MainPresenter(var view: MainNote.View?) : MainNote.Presenter {
+class MainPresenter(var view: MainNote.View?, private val db: NoteDatabase) : MainNote.Presenter {
 
     override fun openFragment(resId: Int, classFragment: Fragment, onStack: Boolean) {
         view?.openFragment(resId, classFragment, onStack)
     }
 
-    override fun getNoteData(): List<NoteItem> = NoteListRepository.getNoteList()
+    override fun getNoteData(): List<NoteItem> = db.noteDao().getAll()
 
     override fun openNote(note: NoteItem) {
         view?.openNoteDescription(note)
@@ -22,6 +22,7 @@ class MainPresenter(var view: MainNote.View?) : MainNote.Presenter {
         else {
             note.title = title
             note.text = text
+            db.noteDao().updateNote(note)
             val titleInMassage = if (title.isEmpty()) "Note" else title
             view?.showMessage("$titleInMassage saved")
         }
@@ -33,5 +34,13 @@ class MainPresenter(var view: MainNote.View?) : MainNote.Presenter {
             val noteText = if (title.isEmpty()) text else "${title}\n${text}"
             view?.shareText(noteText)
         }
+    }
+
+    override fun openEditActivity() {
+        view?.openEditActivity()
+    }
+
+    override fun showMessage(massage: String) {
+        view?.showMessage(massage)
     }
 }

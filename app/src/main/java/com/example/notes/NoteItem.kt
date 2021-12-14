@@ -1,17 +1,18 @@
 package com.example.notes
 
-import java.io.Serializable
+import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Entity(tableName = "notes_table")
+@Parcelize
 data class NoteItem(
-    var title: String,
-    var text: String,
-    val dateOfCreation: String,
-    var id: Long = UNDEFINED_ID
-) : Serializable {
-
-    companion object {
-        const val UNDEFINED_ID: Long = -1
-    }
-}
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @ColumnInfo(name = "title") var title: String,
+    @ColumnInfo(name = "text") var text: String,
+    @ColumnInfo(name = "date") val dateOfCreation: String,
+) : Parcelable
 
 

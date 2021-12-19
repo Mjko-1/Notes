@@ -3,15 +3,16 @@ package com.example.notes.edit.view
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.notes.R
+import com.example.notes.conventions.SaverActivity
 import com.example.notes.databinding.ActivityEditBinding
+import com.example.notes.dialogs.SaveConfirmationDialog
 import com.example.notes.edit.EditNote
 import com.example.notes.edit.presenter.EditPresenter
 import com.example.notes.model.NoteDatabase
 
-class EditActivity : AppCompatActivity(), EditNote.View {
+class EditActivity : AppCompatActivity(), EditNote.View, SaverActivity {
 
     private lateinit var binding: ActivityEditBinding
 
@@ -38,7 +39,7 @@ class EditActivity : AppCompatActivity(), EditNote.View {
             presenter.shareNote(editText.text.toString(), editText.text.toString())
         }
         buttonSave.setOnClickListener {
-            showDialog(editText.text.toString(), editText.text.toString())
+            SaveConfirmationDialog().show(supportFragmentManager, "Alert dialog")
         }
     }
 
@@ -57,18 +58,8 @@ class EditActivity : AppCompatActivity(), EditNote.View {
         })
     }
 
-    private fun showDialog(title: String, text: String) {
-        AlertDialog.Builder(this)
-            .setMessage(getString(R.string.edit_dialog_massage))
-            .setCancelable(true)
-            .setPositiveButton(getString(R.string.positive_button_text)) { _, _ ->
-                presenter.saveNote(title, text)
-            }
-            .setNegativeButton(getString(R.string.negative_button_text)) { negative, _ ->
-                negative.dismiss()
-            }
-            .create()
-            .show()
+    override fun saveEdit() = with(binding) {
+        presenter.saveNote(editText.text.toString(), editText.text.toString())
     }
 }
 

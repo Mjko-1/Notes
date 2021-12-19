@@ -7,7 +7,7 @@ class NoteDescriptionPresenter(var view: NoteDescription.View?, private val db: 
 
     fun tryToSaveNote(title: String, text: String, note: NoteItem) {
         if (title == note.title && text == note.text) showMessage("Note unchanged")
-        else view?.showDialog(title, text, note)
+        else view?.showDialog()
     }
 
     fun saveNote(title: String, text: String, note: NoteItem) {

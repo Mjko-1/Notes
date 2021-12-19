@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import com.example.notes.NoteItem
 import com.example.notes.R
 import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.databinding.FragmentNoteDescriptionBinding
+import com.example.notes.dialogs.SaveConfirmationDialog
 import com.example.notes.model.NoteDatabase
 import com.example.notes.viewPager.NotesPagerActivity
 
@@ -51,6 +52,16 @@ class NoteDescriptionFragment : Fragment(), NoteDescription.View, ActionWithNote
             editTitle.setText(note?.title)
             editText.setText(note?.text)
             textDate.text = note?.dateOfCreation
+
+            setFragmentResultListener(CONFIRMATION_TAG) { _, bundle ->
+                val result = bundle.getBoolean(AGREE_TAG)
+                if (result) note?.let {
+                    presenter?.saveNote(
+                        editTitle.text.toString(), editText.text.toString(),
+                        it
+                    )
+                }
+            }
         }
     }
 
@@ -97,7 +108,6 @@ class NoteDescriptionFragment : Fragment(), NoteDescription.View, ActionWithNote
         Toast.makeText(requireContext(), R.string.empty_text_massage, Toast.LENGTH_SHORT).show()
     }
 
-
     private fun initToolbar() {
         binding?.apply {
             buttonBack.setOnClickListener {
@@ -120,23 +130,15 @@ class NoteDescriptionFragment : Fragment(), NoteDescription.View, ActionWithNote
         }
     }
 
-    override fun showDialog(title: String, text: String, note: NoteItem) {
-        AlertDialog.Builder(requireContext())
-            .setMessage(getString(R.string.edit_dialog_massage))
-            .setCancelable(true)
-            .setPositiveButton(getString(R.string.positive_button_text)) { _, _ ->
-                presenter?.saveNote(title, text, note)
-            }
-            .setNegativeButton(getString(R.string.negative_button_text)) { negative, _ ->
-                negative.dismiss()
-            }
-            .create()
-            .show()
+    override fun showDialog() {
+        SaveConfirmationDialog().show(parentFragmentManager, "Alert dialog")
     }
 
     companion object {
 
         const val NOTE_TAG = "NoteToFragment"
+        const val CONFIRMATION_TAG = "NoteToFragment"
+        const val AGREE_TAG = "NoteToFragment"
 
         @JvmStatic
         fun newInstance(noteItem: NoteItem) = NoteDescriptionFragment().apply {

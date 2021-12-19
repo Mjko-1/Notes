@@ -3,9 +3,10 @@
 
     <string name="title">Title</string>
     <string name="text">Text</string>
-    <string name="edit_activity_actionbar_text">Edit note</string>
-    <string name="main_activity_actionbar_text">Your notes</string>
-    <string name="about_activity_actionbar_text">About application</string>
+    <string name="edit_activity_toolbar_text">Edit note</string>
+    <string name="main_activity_toolbar_text">Your notes</string>
+    <string name="about_activity_toolbar_text">About application</string>
+    <string name="notes_pager_activity_toolbar_text">View pager</string>
 
     <string name="empty_text_massage">Enter the text</string>
     <string name="share">Share</string>

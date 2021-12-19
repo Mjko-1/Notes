@@ -25,7 +25,7 @@
                 android:background="@color/purple"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="@string/main_activity_actionbar_text" />
+                app:title="@string/main_activity_toolbar_text" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/buttonAbout"

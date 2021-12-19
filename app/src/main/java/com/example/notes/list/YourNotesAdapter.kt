@@ -1,6 +1,5 @@
-package com.example.notes.main.view
+package com.example.notes.list
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,6 @@ class YourNotesAdapter(private var onClick: (note: NoteItem) -> Unit) :
             textData.text = note.dateOfCreation
 
             cardViewNote.setOnClickListener {
-                Log.d("qwe", "qwer")
                 onClick(note)
             }
         }

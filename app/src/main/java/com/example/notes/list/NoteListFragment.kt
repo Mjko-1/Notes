@@ -1,11 +1,11 @@
-package com.example.notes.main.view
+package com.example.notes.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.notes.InteractingWithToolbar
+import com.example.notes.conventions.InteractingWithToolbar
 import com.example.notes.databinding.FragmentNoteListBinding
 import com.example.notes.main.MainNote
 import com.example.notes.main.presenter.MainPresenter
@@ -46,7 +46,7 @@ class NoteListFragment : Fragment() {
             list.adapter = adapter
 
             fabAddNote.setOnClickListener {
-                presenter?.openEditActivity()
+                presenter?.openEditScreen()
             }
         }
     }

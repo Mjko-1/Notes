@@ -1,7 +1,7 @@
 package com.example.notes.edit.presenter
 
 import android.annotation.SuppressLint
-import com.example.notes.Constant
+import com.example.notes.conventions.Constant
 import com.example.notes.NoteItem
 import com.example.notes.edit.EditNote
 import com.example.notes.model.NoteDatabase

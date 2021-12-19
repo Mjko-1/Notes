@@ -1,23 +1,25 @@
-package com.example.notes.main.view
+package com.example.notes.note
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.notes.NoteItem
 import com.example.notes.R
+import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.databinding.FragmentNoteDescriptionBinding
-import com.example.notes.main.MainNote
-import com.example.notes.main.presenter.MainPresenter
 import com.example.notes.model.NoteDatabase
+import com.example.notes.viewPager.NotesPagerActivity
 
-class NoteDescriptionFragment : Fragment() {
+class NoteDescriptionFragment : Fragment(), NoteDescription.View, ActionWithNoteFragment {
 
     private var binding: FragmentNoteDescriptionBinding? = null
 
-    private var presenter: MainPresenter? = null
+    private var presenter: NoteDescriptionPresenter? = null
 
     private var note: NoteItem? = null
 
@@ -39,10 +41,9 @@ class NoteDescriptionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter = MainPresenter(
-            requireActivity() as? MainNote.View,
-            NoteDatabase.getInstance(requireContext())
-        )
+        (activity as? NotesPagerActivity)?.currentFragment = this
+
+        presenter = NoteDescriptionPresenter(this, NoteDatabase.getInstance(requireContext()))
 
         initToolbar()
 
@@ -51,7 +52,11 @@ class NoteDescriptionFragment : Fragment() {
             editText.setText(note?.text)
             textDate.text = note?.dateOfCreation
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as? NotesPagerActivity)?.currentFragment = this
     }
 
     override fun onDestroyView() {
@@ -60,31 +65,62 @@ class NoteDescriptionFragment : Fragment() {
         super.onDestroyView()
     }
 
+    override fun saveNote() {
+        note?.let {
+            presenter?.tryToSaveNote(
+                binding?.editTitle?.text.toString(),
+                binding?.editText?.text.toString(),
+                it
+            )
+        }
+    }
+
+    override fun shareNoteText() {
+        presenter?.shareNote(
+            binding?.editTitle?.text.toString(),
+            binding?.editText?.text.toString()
+        )
+    }
+
+    override fun shareText(noteText: String) {
+        startActivity(Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, noteText)
+        })
+    }
+
+    override fun showMessage(massage: String) {
+        Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showMessageEmpty() {
+        Toast.makeText(requireContext(), R.string.empty_text_massage, Toast.LENGTH_SHORT).show()
+    }
+
+
     private fun initToolbar() {
         binding?.apply {
             buttonBack.setOnClickListener {
                 activity?.onBackPressed()
             }
+
             buttonSave.setOnClickListener {
-                if (editTitle.text.toString() == note?.title &&
-                    editText.text.toString() == note?.text
-                )
-                    presenter?.showMessage(getString(R.string.note_unchanged))
-                else note?.let { noteItem ->
-                    showDialog(
+                note?.let { noteItem ->
+                    presenter?.tryToSaveNote(
                         editTitle.text.toString(),
                         editText.text.toString(),
                         noteItem
                     )
                 }
             }
+
             buttonShare.setOnClickListener {
                 presenter?.shareNote(editTitle.text.toString(), editText.text.toString())
             }
         }
     }
 
-    private fun showDialog(title: String, text: String, note: NoteItem) {
+    override fun showDialog(title: String, text: String, note: NoteItem) {
         AlertDialog.Builder(requireContext())
             .setMessage(getString(R.string.edit_dialog_massage))
             .setCancelable(true)
@@ -103,6 +139,13 @@ class NoteDescriptionFragment : Fragment() {
         const val NOTE_TAG = "NoteToFragment"
 
         @JvmStatic
-        fun newInstance() = NoteDescriptionFragment()
+        fun newInstance(noteItem: NoteItem) = NoteDescriptionFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(NOTE_TAG, noteItem)
+            }
+        }
     }
 }
+
+
+

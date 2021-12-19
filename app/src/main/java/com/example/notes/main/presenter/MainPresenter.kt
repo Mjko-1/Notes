@@ -7,40 +7,17 @@ import com.example.notes.model.NoteDatabase
 
 class MainPresenter(var view: MainNote.View?, private val db: NoteDatabase) : MainNote.Presenter {
 
+    override fun getNoteData(): List<NoteItem> = db.noteDao().getAll()
+
     override fun openFragment(resId: Int, classFragment: Fragment, onStack: Boolean) {
         view?.openFragment(resId, classFragment, onStack)
     }
-
-    override fun getNoteData(): List<NoteItem> = db.noteDao().getAll()
 
     override fun openNote(note: NoteItem) {
         view?.openNoteDescription(note)
     }
 
-    override fun saveNote(title: String, text: String, note: NoteItem) {
-        if (text.isEmpty()) view?.showMessageEmpty()
-        else {
-            note.title = title
-            note.text = text
-            db.noteDao().updateNote(note)
-            val titleInMassage = if (title.isEmpty()) "Note" else title
-            view?.showMessage("$titleInMassage saved")
-        }
-    }
-
-    override fun shareNote(title: String, text: String) {
-        if (title.isEmpty() || text.isEmpty()) view?.showMessage("Note is empty")
-        else {
-            val noteText = if (title.isEmpty()) text else "${title}\n${text}"
-            view?.shareText(noteText)
-        }
-    }
-
-    override fun openEditActivity() {
+    override fun openEditScreen() {
         view?.openEditActivity()
-    }
-
-    override fun showMessage(massage: String) {
-        view?.showMessage(massage)
     }
 }

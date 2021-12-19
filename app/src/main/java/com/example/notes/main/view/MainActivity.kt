@@ -2,19 +2,20 @@ package com.example.notes.main.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.example.notes.InteractingWithToolbar
 import com.example.notes.NoteItem
 import com.example.notes.R
 import com.example.notes.about.AboutActivity
+import com.example.notes.conventions.InteractingWithToolbar
 import com.example.notes.databinding.ActivityMainBinding
 import com.example.notes.edit.view.EditActivity
+import com.example.notes.list.NoteListFragment
 import com.example.notes.main.MainNote
 import com.example.notes.main.presenter.MainPresenter
 import com.example.notes.model.NoteDatabase
+import com.example.notes.note.NoteDescriptionFragment
 import com.example.notes.viewPager.NotesPagerActivity
 
 class MainActivity : AppCompatActivity(), MainNote.View, InteractingWithToolbar {
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), MainNote.View, InteractingWithToolbar 
         presenter = MainPresenter(this, NoteDatabase.getInstance(this))
 
         openFragment(binding.fragmentContainer.id, NoteListFragment.newInstance(), false)
+
     }
 
     override fun onDestroy() {
@@ -68,21 +70,6 @@ class MainActivity : AppCompatActivity(), MainNote.View, InteractingWithToolbar 
         }
     }
 
-    override fun showMessage(massage: String) {
-        Toast.makeText(this, massage, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showMessageEmpty() {
-        Toast.makeText(this, R.string.empty_text_massage, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun shareText(noteText: String) {
-        startActivity(Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, noteText)
-        })
-    }
-
     override fun openEditActivity() {
         startActivity(Intent(this, EditActivity::class.java))
     }
@@ -93,14 +80,13 @@ class MainActivity : AppCompatActivity(), MainNote.View, InteractingWithToolbar 
             putParcelable(NoteDescriptionFragment.NOTE_TAG, note)
         }
 
-        val fragmentToManager = NoteDescriptionFragment.newInstance()
+        val fragmentToManager = NoteDescriptionFragment.newInstance(note)
         fragmentToManager.arguments = bundle
 
         openFragment(R.id.fragment_container, fragmentToManager, true)
     }
 
     override fun displayToolbar(condition: Boolean) {
-        if (condition) binding.appBarLayout.visibility = View.VISIBLE
-        else binding.appBarLayout.visibility = View.GONE
+        binding.appBarLayout.isVisible = condition
     }
 }

@@ -4,7 +4,7 @@ interface NoteDescription {
 
     interface View {
         fun showMessageEmpty()
-        fun showMessage(massage: String)
+        fun showMessage(message: String)
         fun shareText(noteText: String)
         fun showDialog()
     }

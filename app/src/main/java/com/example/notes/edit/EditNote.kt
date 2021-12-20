@@ -3,7 +3,7 @@ package com.example.notes.edit
 interface EditNote {
 
     interface View {
-        fun showMessage(massage: String)
+        fun showMessage(message: String)
         fun showMessageEmpty()
         fun shareText(noteText: String)
     }

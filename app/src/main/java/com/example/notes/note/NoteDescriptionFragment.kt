@@ -100,12 +100,16 @@ class NoteDescriptionFragment : Fragment(), NoteDescription.View, ActionWithNote
         })
     }
 
-    override fun showMessage(massage: String) {
-        Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
+    override fun showMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun showMessageEmpty() {
         Toast.makeText(requireContext(), R.string.empty_text_massage, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showDialog() {
+        SaveConfirmationDialog().show(parentFragmentManager, "Alert dialog")
     }
 
     private fun initToolbar() {
@@ -128,10 +132,6 @@ class NoteDescriptionFragment : Fragment(), NoteDescription.View, ActionWithNote
                 presenter?.shareNote(editTitle.text.toString(), editText.text.toString())
             }
         }
-    }
-
-    override fun showDialog() {
-        SaveConfirmationDialog().show(parentFragmentManager, "Alert dialog")
     }
 
     companion object {

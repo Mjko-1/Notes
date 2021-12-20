@@ -43,8 +43,8 @@ class EditActivity : AppCompatActivity(), EditNote.View, SaverActivity {
         }
     }
 
-    override fun showMessage(massage: String) {
-        Toast.makeText(this, massage, Toast.LENGTH_SHORT).show()
+    override fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun showMessageEmpty() {

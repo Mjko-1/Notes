@@ -9,7 +9,11 @@ import com.example.notes.note.NoteDescriptionFragment
 class ViewPagerAdapter(fragmentActivity: AppCompatActivity) :
     FragmentStateAdapter(fragmentActivity) {
 
-    var values: List<NoteItem> = mutableListOf()
+    var values: List<NoteItem> = listOf()
+
+    fun updateData(values: List<NoteItem>) {
+        this.values = values
+    }
 
     override fun getItemCount(): Int = values.size
 

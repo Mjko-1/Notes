@@ -8,9 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
+import com.example.notes.NoteItem
 import com.example.notes.R
 import com.example.notes.about.opportunities.SharingText
 import com.example.notes.conventions.ActionWithNoteFragment
+import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.FragmentNoteDescriptionBinding
 import com.example.notes.dialogs.SaveConfirmationDialog
 
@@ -23,7 +25,7 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
     private val sharingText = SharingText()
 
     private var screenMode = MODE_UNKNOWN
-    private var noteItemId = ID_UNKNOWN
+    private var noteItemId = NoteItem.ID_UNKNOWN
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,11 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
         launchRightMode()
         setupFragmentResultListener()
         setupOnClickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (activity is NoteEditor) (activity as NoteEditor).currentFragment = this
     }
 
     override fun onDestroyView() {
@@ -84,7 +91,7 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
         if (screenMode == MODE_EDIT) {
             if (!args.containsKey(NOTE_ITEM_ID))
                 throw RuntimeException("Param noteItemId is absent")
-            noteItemId = args.getLong(NOTE_ITEM_ID, ID_UNKNOWN)
+            noteItemId = args.getLong(NOTE_ITEM_ID, NoteItem.ID_UNKNOWN)
         }
     }
 
@@ -172,7 +179,6 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
         private const val MODE_EDIT = "mode_edit"
         private const val MODE_ADD = "mode_add"
         private const val MODE_UNKNOWN = ""
-        private const val ID_UNKNOWN: Long = -1
 
         const val CONFIRMATION_TAG = "confirmation"
         const val AGREE_TAG = "agree"

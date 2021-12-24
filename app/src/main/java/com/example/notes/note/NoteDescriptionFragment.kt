@@ -10,11 +10,11 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.notes.NoteItem
 import com.example.notes.R
-import com.example.notes.about.opportunities.SharingText
 import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.FragmentNoteDescriptionBinding
 import com.example.notes.dialogs.SaveConfirmationDialog
+import com.example.notes.opportunities.SharingText
 
 class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
 
@@ -50,6 +50,9 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
             NoteDescriptionViewModelFactory(requireContext())
         )[NoteDescriptionViewModel::class.java]
 
+        binding?.viewModel = viewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
+
         observeViewModel()
         launchRightMode()
         setupFragmentResultListener()
@@ -68,13 +71,13 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
 
     override fun tryToShareText() {
         binding?.apply {
-            viewModel.shareNote(editTitle.text.toString(), editText.text.toString())
+            viewModel?.shareNote(editTitle.text.toString(), editText.text.toString())
         }
     }
 
     override fun tryToSaveText() {
         binding?.apply {
-            viewModel.setNoteText(editText.text.toString())
+            viewModel?.setNoteText(editText.text.toString())
         }
     }
 
@@ -127,14 +130,7 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
     }
 
     private fun launchEditMode() {
-        binding?.apply {
-            viewModel.setNoteItem(noteItemId)
-            viewModel.noteItem.observe(viewLifecycleOwner) {
-                editTitle.setText(it.title)
-                editText.setText(it.text)
-                textDate.text = it.dateOfCreation
-            }
-        }
+        viewModel.setNoteItem(noteItemId)
     }
 
     private fun launchAddMode() {
@@ -155,9 +151,9 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
                 val result = bundle.getBoolean(AGREE_TAG)
                 if (result) {
                     if (screenMode == MODE_ADD)
-                        viewModel.addNoteItem(editTitle.text.toString(), editText.text.toString())
+                        viewModel?.addNoteItem(editTitle.text.toString(), editText.text.toString())
                     if (screenMode == MODE_EDIT)
-                        viewModel.editNoteItem(editTitle.text.toString(), editText.text.toString())
+                        viewModel?.editNoteItem(editTitle.text.toString(), editText.text.toString())
                     showMessage(getString(R.string.saving_successfully))
                 }
             }

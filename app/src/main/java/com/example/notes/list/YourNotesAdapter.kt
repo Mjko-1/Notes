@@ -20,9 +20,7 @@ class YourNotesAdapter :
         private val binding = NoteItemBinding.bind(item)
 
         fun bind(note: NoteItem) = with(binding) {
-            textTitle.text = note.title
-            textText.text = note.text
-            textData.text = note.dateOfCreation
+            noteItem = note
 
             cardViewNote.setOnClickListener {
                 onClick?.invoke(note.id)

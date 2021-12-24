@@ -1,4 +1,4 @@
-package com.example.notes.about.opportunities
+package com.example.notes.opportunities
 
 import android.content.Context
 import android.content.Intent

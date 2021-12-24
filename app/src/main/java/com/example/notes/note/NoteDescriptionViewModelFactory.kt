@@ -1,12 +1,13 @@
 package com.example.notes.note
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.notes.model.NoteRepository
 
-class NoteDescriptionViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+class NoteDescriptionViewModelFactory(private val repository: NoteRepository) :
+    ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return NoteDescriptionViewModel(context) as T
+        return NoteDescriptionViewModel(repository) as T
     }
 }

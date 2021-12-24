@@ -14,6 +14,8 @@ import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.FragmentNoteDescriptionBinding
 import com.example.notes.dialogs.SaveConfirmationDialog
+import com.example.notes.model.NoteRepository
+import com.example.notes.model.room.NoteRepositoryImpl
 import com.example.notes.opportunities.SharingText
 
 class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
@@ -23,6 +25,8 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
     private lateinit var viewModel: NoteDescriptionViewModel
 
     private val sharingText = SharingText()
+
+    private val repository: NoteRepository = NoteRepositoryImpl(requireContext())
 
     private var screenMode = MODE_UNKNOWN
     private var noteItemId = NoteItem.ID_UNKNOWN
@@ -47,7 +51,7 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
 
         viewModel = ViewModelProvider(
             this,
-            NoteDescriptionViewModelFactory(requireContext())
+            NoteDescriptionViewModelFactory(repository)
         )[NoteDescriptionViewModel::class.java]
 
         binding?.viewModel = viewModel

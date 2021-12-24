@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.databinding.FragmentNoteListBinding
 import com.example.notes.edit.EditActivity
+import com.example.notes.model.NoteRepository
+import com.example.notes.model.room.NoteRepositoryImpl
 import com.example.notes.viewPager.NotesPagerActivity
 
 class NoteListFragment : Fragment() {
@@ -20,6 +22,8 @@ class NoteListFragment : Fragment() {
     private lateinit var viewModel: NoteListViewModel
 
     private lateinit var adapter: YourNotesAdapter
+
+    private val repository: NoteRepository = NoteRepositoryImpl(requireContext())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +39,7 @@ class NoteListFragment : Fragment() {
 
         viewModel = ViewModelProvider(
             this,
-            NoteListViewModelFactory(requireContext())
+            NoteListViewModelFactory(repository)
         )[NoteListViewModel::class.java]
 
         setupRecyclerView()

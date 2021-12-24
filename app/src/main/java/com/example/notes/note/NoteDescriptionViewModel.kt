@@ -1,20 +1,16 @@
 package com.example.notes.note
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.notes.NoteItem
 import com.example.notes.conventions.Constant
 import com.example.notes.model.NoteRepository
-import com.example.notes.model.room.NoteRepositoryImpl
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteDescriptionViewModel(context: Context) : ViewModel() {
-
-    private val repository: NoteRepository = NoteRepositoryImpl(context)
+class NoteDescriptionViewModel(private val repository: NoteRepository) : ViewModel() {
 
     private val _noteItem = MutableLiveData<NoteItem>()
     val noteItem: LiveData<NoteItem>

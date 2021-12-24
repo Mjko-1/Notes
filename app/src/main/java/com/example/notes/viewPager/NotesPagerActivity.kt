@@ -10,6 +10,8 @@ import com.example.notes.NoteItem
 import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.ActivityNotesPagerBinding
+import com.example.notes.model.NoteRepository
+import com.example.notes.model.room.NoteRepositoryImpl
 
 class NotesPagerActivity : AppCompatActivity(), NoteEditor {
 
@@ -23,6 +25,8 @@ class NotesPagerActivity : AppCompatActivity(), NoteEditor {
 
     private var startState = true
 
+    private val repository: NoteRepository = NoteRepositoryImpl(this)
+
     private var noteItemId = NoteItem.ID_UNKNOWN
     private var startFragmentItemId = FRAGMENT_ID_UNKNOWN
 
@@ -33,7 +37,7 @@ class NotesPagerActivity : AppCompatActivity(), NoteEditor {
 
         viewModel = ViewModelProvider(
             this,
-            NotesPagerViewModelFactory(this)
+            NotesPagerViewModelFactory(repository)
         )[NotesPagerViewModel::class.java]
 
         noteItemId = intent.getLongExtra(EXTRA_NOTE_ITEM_ID, NoteItem.ID_UNKNOWN)

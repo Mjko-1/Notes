@@ -10,8 +10,10 @@ import com.example.notes.NoteItemDiffCallback
 import com.example.notes.R
 import com.example.notes.databinding.NoteItemBinding
 
-class YourNotesAdapter(private var onClick: (note: NoteItem) -> Unit) :
+class YourNotesAdapter :
     ListAdapter<NoteItem, YourNotesAdapter.NoteHolder>(NoteItemDiffCallback()) {
+
+    var onClick: ((noteItemId: Long) -> Unit)? = null
 
     inner class NoteHolder(item: View) : RecyclerView.ViewHolder(item) {
 
@@ -23,7 +25,7 @@ class YourNotesAdapter(private var onClick: (note: NoteItem) -> Unit) :
             textData.text = note.dateOfCreation
 
             cardViewNote.setOnClickListener {
-                onClick(note)
+                onClick?.invoke(note.id)
             }
         }
     }

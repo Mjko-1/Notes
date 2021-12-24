@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import com.example.notes.R
-import com.example.notes.conventions.SaverActivity
 import com.example.notes.note.NoteDescriptionFragment
 
 class SaveConfirmationDialog : DialogFragment() {
@@ -16,12 +15,9 @@ class SaveConfirmationDialog : DialogFragment() {
                 setMessage(R.string.edit_dialog_massage)
                 setNegativeButton(R.string.negative_button_text, null)
                 setPositiveButton(R.string.positive_button_text) { _, _ ->
-                    if (activity is SaverActivity) (activity as SaverActivity).saveEdit()
-                    else setFragmentResult(
-                        NoteDescriptionFragment.CONFIRMATION_TAG,
-                        Bundle().apply {
-                            putBoolean(NoteDescriptionFragment.AGREE_TAG, true)
-                        })
+                    setFragmentResult(NoteDescriptionFragment.CONFIRMATION_TAG, Bundle().apply {
+                        putBoolean(NoteDescriptionFragment.AGREE_TAG, true)
+                    })
                 }
             }.create()
         } ?: throw  IllegalStateException("Exception")

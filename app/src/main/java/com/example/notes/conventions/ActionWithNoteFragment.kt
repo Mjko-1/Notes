@@ -2,6 +2,6 @@ package com.example.notes.conventions
 
 interface ActionWithNoteFragment {
 
-    fun saveNote()
-    fun shareNoteText()
+    fun tryToShareText()
+    fun tryToSaveText()
 }

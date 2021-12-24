@@ -1,15 +1,19 @@
 package com.example.notes.viewPager
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.databinding.ActivityNotesPagerBinding
-import com.example.notes.model.NoteDatabase
 
-class NotesPagerActivity : AppCompatActivity(), NotesPager.View {
+class NotesPagerActivity : AppCompatActivity() {
 
     private var binding: ActivityNotesPagerBinding? = null
+
+    private lateinit var viewModel: NotesPagerViewModel
 
     private lateinit var adapter: ViewPagerAdapter
 
@@ -19,6 +23,11 @@ class NotesPagerActivity : AppCompatActivity(), NotesPager.View {
         super.onCreate(savedInstanceState)
         binding = ActivityNotesPagerBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        viewModel = ViewModelProvider(
+            this,
+            NotesPagerViewModelFactory(this)
+        )[NotesPagerViewModel::class.java]
 
         initViewPager()
         initToolbar()
@@ -40,18 +49,16 @@ class NotesPagerActivity : AppCompatActivity(), NotesPager.View {
                 onBackPressed()
             }
             buttonSave.setOnClickListener {
-                currentFragment?.saveNote()
+                currentFragment?.tryToSaveText()
             }
             buttonShare.setOnClickListener {
-                currentFragment?.shareNoteText()
+                currentFragment?.tryToShareText()
             }
         }
     }
 
     private fun initViewPager() {
-        val presenter = ViewPagerPresenter(this, NoteDatabase.getInstance(this))
-
-        adapter = ViewPagerAdapter(this, presenter.getNoteData())
+        adapter = ViewPagerAdapter(this)
         binding?.viewPager2?.adapter = adapter
 
         binding?.viewPager2?.registerOnPageChangeCallback(object :
@@ -65,5 +72,16 @@ class NotesPagerActivity : AppCompatActivity(), NotesPager.View {
                         as ActionWithNoteFragment
             }
         })
+    }
+
+    companion object {
+
+        private const val EXTRA_NOTE_ITEM_ID = "extra_note_item_id"
+
+        fun newIntentEditItem(context: Context, noteItemId: Long): Intent {
+            val intent = Intent(context, NotesPagerActivity::class.java)
+            intent.putExtra(EXTRA_NOTE_ITEM_ID, noteItemId)
+            return intent
+        }
     }
 }

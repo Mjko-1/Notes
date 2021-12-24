@@ -1,5 +1,6 @@
 package com.example.notes.model
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.notes.NoteItem
 
@@ -7,16 +8,13 @@ import com.example.notes.NoteItem
 interface NotesDao {
 
     @Query("SELECT * FROM notes_table")
-    fun getAll(): List<NoteItem>
+    fun getNoteList(): LiveData<List<NoteItem>>
 
     @Query("SELECT * FROM notes_table WHERE id=(:id)")
     fun getNote(id: Long): NoteItem
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(note: NoteItem)
-
-    @Update
-    fun updateNote(note: NoteItem)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertNote(note: NoteItem)
 
     @Query("DELETE FROM notes_table WHERE id=(:id)")
     fun deleteNote(id: Long)

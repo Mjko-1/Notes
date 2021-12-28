@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.databinding.FragmentNoteListBinding
 import com.example.notes.edit.EditActivity
-import com.example.notes.model.NoteRepository
 import com.example.notes.model.room.NoteRepositoryImpl
 import com.example.notes.viewPager.NotesPagerActivity
 
@@ -26,11 +25,9 @@ class NoteListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return FragmentNoteListBinding.inflate(inflater).also {
-            binding = it
-        }.root
-    }
+    ): View = FragmentNoteListBinding.inflate(inflater).also {
+        binding = it
+    }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

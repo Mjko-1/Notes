@@ -14,17 +14,15 @@ import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.FragmentNoteDescriptionBinding
 import com.example.notes.dialogs.SaveConfirmationDialog
-import com.example.notes.model.NoteRepository
 import com.example.notes.model.room.NoteRepositoryImpl
-import com.example.notes.opportunities.SharingText
+import com.example.notes.opportunities.shareText
+import com.example.notes.viewPager.NotesPagerActivity
 
 class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
 
     private var binding: FragmentNoteDescriptionBinding? = null
 
     private lateinit var viewModel: NoteDescriptionViewModel
-
-    private val sharingText = SharingText()
 
     private var screenMode = MODE_UNKNOWN
     private var noteItemId = NoteItem.ID_UNKNOWN
@@ -38,11 +36,9 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return FragmentNoteDescriptionBinding.inflate(inflater).also {
-            binding = it
-        }.root
-    }
+    ): View = FragmentNoteDescriptionBinding.inflate(inflater).also {
+        binding = it
+    }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -121,7 +117,7 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
     }
 
     private fun shareText(text: String) {
-        sharingText.shareText(text, requireContext())
+        requireContext().shareText(text)
     }
 
     private fun launchRightMode() {
@@ -152,11 +148,22 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
             setFragmentResultListener(CONFIRMATION_TAG) { _, bundle ->
                 val result = bundle.getBoolean(AGREE_TAG)
                 if (result) {
-                    if (screenMode == MODE_ADD)
+                    if (screenMode == MODE_ADD) {
+                        viewModel?.noteList?.observe(viewLifecycleOwner) {
+                            startActivity(
+                                NotesPagerActivity.newIntentEditItem(
+                                    requireContext(),
+                                    it.last().id
+                                )
+                            )
+                        }
                         viewModel?.addNoteItem(editTitle.text.toString(), editText.text.toString())
-                    if (screenMode == MODE_EDIT)
+                    }
+                    if (screenMode == MODE_EDIT) {
                         viewModel?.editNoteItem(editTitle.text.toString(), editText.text.toString())
-                    showMessage(getString(R.string.saving_successfully))
+                        showMessage(getString(R.string.saving_successfully))
+                    }
+
                 }
             }
         }

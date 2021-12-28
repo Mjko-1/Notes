@@ -1,5 +1,6 @@
 package com.example.notes.viewPager
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -11,8 +12,10 @@ class ViewPagerAdapter(fragmentActivity: AppCompatActivity) :
 
     var values: List<NoteItem> = listOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(values: List<NoteItem>) {
         this.values = values
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = values.size

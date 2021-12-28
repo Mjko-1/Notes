@@ -12,6 +12,8 @@ import java.util.*
 
 class NoteDescriptionViewModel(private val repository: NoteRepository) : ViewModel() {
 
+    val noteList: LiveData<List<NoteItem>> = repository.getNoteList()
+
     private val _noteItem = MutableLiveData<NoteItem>()
     val noteItem: LiveData<NoteItem>
         get() = _noteItem
@@ -47,11 +49,7 @@ class NoteDescriptionViewModel(private val repository: NoteRepository) : ViewMod
     }
 
     fun shareNote(title: String, text: String) {
-        if (title.isEmpty() || text.isEmpty())
-            _textToShare.value = ""
-        else {
-            val noteTextToShare = if (title.isEmpty()) text else "${title}\n${text}"
-            _textToShare.value = noteTextToShare
-        }
+        val noteTextToShare = if (title.isEmpty()) text else "${title}\n${text}"
+        _textToShare.value = noteTextToShare
     }
 }

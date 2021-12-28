@@ -1,6 +1,5 @@
 package com.example.notes.viewPager
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +9,6 @@ import com.example.notes.NoteItem
 import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.ActivityNotesPagerBinding
-import com.example.notes.model.NoteRepository
 import com.example.notes.model.room.NoteRepositoryImpl
 
 class NotesPagerActivity : AppCompatActivity(), NoteEditor {
@@ -25,8 +23,6 @@ class NotesPagerActivity : AppCompatActivity(), NoteEditor {
 
     private var startState = true
 
-    private val repository: NoteRepository = NoteRepositoryImpl(this)
-
     private var noteItemId = NoteItem.ID_UNKNOWN
     private var startFragmentItemId = FRAGMENT_ID_UNKNOWN
 
@@ -37,7 +33,7 @@ class NotesPagerActivity : AppCompatActivity(), NoteEditor {
 
         viewModel = ViewModelProvider(
             this,
-            NotesPagerViewModelFactory(repository)
+            NotesPagerViewModelFactory(NoteRepositoryImpl(this))
         )[NotesPagerViewModel::class.java]
 
         noteItemId = intent.getLongExtra(EXTRA_NOTE_ITEM_ID, NoteItem.ID_UNKNOWN)
@@ -61,15 +57,14 @@ class NotesPagerActivity : AppCompatActivity(), NoteEditor {
             if (startState) {
                 findStartFragmentIndex()
                 binding?.viewPager2?.setCurrentItem(startFragmentItemId, false)
+                startState = false
             }
         }
         binding?.viewPager2?.adapter = adapter
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateData(noteList: List<NoteItem>) {
+    private fun updateData(noteList: List<NoteItem>) {
         adapter.updateData(noteList)
-        adapter.notifyDataSetChanged()
     }
 
     private fun initToolbar() {
@@ -101,10 +96,9 @@ class NotesPagerActivity : AppCompatActivity(), NoteEditor {
         private const val EXTRA_NOTE_ITEM_ID = "extra_note_item_id"
         private const val FRAGMENT_ID_UNKNOWN = -1
 
-        fun newIntentEditItem(context: Context, noteItemId: Long): Intent {
-            val intent = Intent(context, NotesPagerActivity::class.java)
-            intent.putExtra(EXTRA_NOTE_ITEM_ID, noteItemId)
-            return intent
-        }
+        fun newIntentEditItem(context: Context, noteItemId: Long): Intent =
+            Intent(context, NotesPagerActivity::class.java).apply {
+                putExtra(EXTRA_NOTE_ITEM_ID, noteItemId)
+            }
     }
 }

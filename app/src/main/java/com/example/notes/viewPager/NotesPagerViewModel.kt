@@ -17,5 +17,4 @@ class NotesPagerViewModel(private val repository: NoteRepository) : ViewModel() 
     fun setStartFragmentItemId(noteItemId: Long) {
         _fragmentId.value = noteList.value?.indexOf(repository.getNoteItem(noteItemId))
     }
-
 }

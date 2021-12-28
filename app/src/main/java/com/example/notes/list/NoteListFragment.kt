@@ -23,8 +23,6 @@ class NoteListFragment : Fragment() {
 
     private lateinit var adapter: YourNotesAdapter
 
-    private val repository: NoteRepository = NoteRepositoryImpl(requireContext())
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +37,7 @@ class NoteListFragment : Fragment() {
 
         viewModel = ViewModelProvider(
             this,
-            NoteListViewModelFactory(repository)
+            NoteListViewModelFactory(NoteRepositoryImpl(requireContext()))
         )[NoteListViewModel::class.java]
 
         setupRecyclerView()

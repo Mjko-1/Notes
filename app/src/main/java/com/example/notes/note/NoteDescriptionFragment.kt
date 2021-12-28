@@ -26,8 +26,6 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
 
     private val sharingText = SharingText()
 
-    private val repository: NoteRepository = NoteRepositoryImpl(requireContext())
-
     private var screenMode = MODE_UNKNOWN
     private var noteItemId = NoteItem.ID_UNKNOWN
 
@@ -51,7 +49,7 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
 
         viewModel = ViewModelProvider(
             this,
-            NoteDescriptionViewModelFactory(repository)
+            NoteDescriptionViewModelFactory(NoteRepositoryImpl(requireContext()))
         )[NoteDescriptionViewModel::class.java]
 
         binding?.viewModel = viewModel

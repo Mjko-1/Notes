@@ -149,13 +149,18 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
                 val result = bundle.getBoolean(AGREE_TAG)
                 if (result) {
                     if (screenMode == MODE_ADD) {
+                        var startActivity = true
                         viewModel?.noteList?.observe(viewLifecycleOwner) {
-                            startActivity(
-                                NotesPagerActivity.newIntentEditItem(
-                                    requireContext(),
-                                    it.last().id
+                            if (startActivity) {
+                                startActivity(
+                                    NotesPagerActivity.newIntentEditItem(
+                                        requireContext(),
+                                        it.last().id
+                                    )
                                 )
-                            )
+                                startActivity = false
+                                requireActivity().finish()
+                            }
                         }
                         viewModel?.addNoteItem(editTitle.text.toString(), editText.text.toString())
                     }
@@ -163,7 +168,6 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
                         viewModel?.editNoteItem(editTitle.text.toString(), editText.text.toString())
                         showMessage(getString(R.string.saving_successfully))
                     }
-
                 }
             }
         }

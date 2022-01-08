@@ -129,13 +129,12 @@
 
                 <TextView
                     android:id="@+id/textDate"
+                    style="@style/Date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_margin="@dimen/margin_text_in_main_activity"
                     android:text="@{viewModel.noteItem.dateOfCreation}"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/date_text_size"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/date_for_tools_text" />

@@ -3,7 +3,7 @@ package com.example.notes.viewPager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.notes.NoteItem
+import com.example.notes.entities.NoteItem
 import com.example.notes.model.NoteRepository
 
 class NotesPagerViewModel(private val repository: NoteRepository) : ViewModel() {

@@ -8,13 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
-import com.example.notes.NoteItem
+import com.example.notes.entities.NoteItem
 import com.example.notes.R
 import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.FragmentNoteDescriptionBinding
 import com.example.notes.dialogs.SaveConfirmationDialog
-import com.example.notes.model.room.NoteRepositoryImpl
+import com.example.notes.model.NoteRepositoryImpl
 import com.example.notes.opportunities.shareText
 import com.example.notes.viewPager.NotesPagerActivity
 
@@ -192,21 +192,18 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
         const val CONFIRMATION_TAG = "confirmation"
         const val AGREE_TAG = "agree"
 
-        fun newInstanceAddNote(): NoteDescriptionFragment {
-            return NoteDescriptionFragment().apply {
-                arguments = Bundle().apply {
-                    putString(SCREEN_MODE, MODE_ADD)
-                }
+        fun newInstanceAddNote(): NoteDescriptionFragment = NoteDescriptionFragment().apply {
+            arguments = Bundle().apply {
+                putString(SCREEN_MODE, MODE_ADD)
             }
         }
 
-        fun newInstanceEditNote(noteItemId: Long): NoteDescriptionFragment {
-            return NoteDescriptionFragment().apply {
+        fun newInstanceEditNote(noteItemId: Long): NoteDescriptionFragment =
+            NoteDescriptionFragment().apply {
                 arguments = Bundle().apply {
                     putString(SCREEN_MODE, MODE_EDIT)
                     putLong(NOTE_ITEM_ID, noteItemId)
                 }
             }
-        }
     }
 }

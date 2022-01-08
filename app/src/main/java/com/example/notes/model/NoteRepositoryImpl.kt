@@ -1,10 +1,9 @@
-package com.example.notes.model.room
+package com.example.notes.model
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.example.notes.NoteItem
-import com.example.notes.model.NoteDatabase
-import com.example.notes.model.NoteRepository
+import com.example.notes.entities.NoteItem
+import com.example.notes.model.room.NoteDatabase
 
 class NoteRepositoryImpl(context: Context) : NoteRepository {
 

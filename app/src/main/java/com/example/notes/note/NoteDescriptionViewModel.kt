@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.notes.NoteItem
+import com.example.notes.entities.NoteItem
 import com.example.notes.conventions.Constant
 import com.example.notes.model.NoteRepository
 import java.text.SimpleDateFormat

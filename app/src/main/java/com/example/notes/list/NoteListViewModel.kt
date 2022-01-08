@@ -2,7 +2,7 @@ package com.example.notes.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.notes.NoteItem
+import com.example.notes.entities.NoteItem
 import com.example.notes.model.NoteRepository
 
 class NoteListViewModel(private val repository: NoteRepository) : ViewModel() {

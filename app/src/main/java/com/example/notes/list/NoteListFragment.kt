@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.databinding.FragmentNoteListBinding
 import com.example.notes.edit.EditActivity
-import com.example.notes.model.room.NoteRepositoryImpl
+import com.example.notes.model.NoteRepositoryImpl
 import com.example.notes.viewPager.NotesPagerActivity
 
 class NoteListFragment : Fragment() {

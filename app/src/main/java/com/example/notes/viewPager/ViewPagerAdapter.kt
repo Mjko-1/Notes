@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.notes.NoteItem
+import com.example.notes.entities.NoteItem
 import com.example.notes.note.NoteDescriptionFragment
 
 class ViewPagerAdapter(fragmentActivity: AppCompatActivity) :

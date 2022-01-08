@@ -1,7 +1,7 @@
 package com.example.notes.model
 
 import androidx.lifecycle.LiveData
-import com.example.notes.NoteItem
+import com.example.notes.entities.NoteItem
 
 interface NoteRepository {
 

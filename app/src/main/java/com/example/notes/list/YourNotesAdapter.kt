@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.notes.NoteItem
-import com.example.notes.NoteItemDiffCallback
+import com.example.notes.entities.NoteItem
+import com.example.notes.callbacks.NoteItemDiffCallback
 import com.example.notes.R
 import com.example.notes.databinding.NoteItemBinding
 

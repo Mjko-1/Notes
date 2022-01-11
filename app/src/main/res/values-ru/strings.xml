@@ -24,5 +24,6 @@
     <string name="note_unchanged">Заметка не изменена</string>
     <string name="empty_note_text">Заметка пуста</string>
     <string name="saving_successfully">Заметка сохранена</string>
+    <string name="download">Скачивание из Firebase</string>
 
 </resources>

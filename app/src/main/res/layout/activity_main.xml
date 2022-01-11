@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".main.MainActivity">
+        tools:context=".ui.main.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -40,6 +40,21 @@
                     android:minHeight="@dimen/min_size_of_button_in_toolbar"
                     android:padding="@dimen/toolbar_button_padding"
                     android:src="@drawable/ic_about"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/mainActivityToolbar" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/buttonDownload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_end_second_button_in_toolbar"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/download"
+                    android:minWidth="@dimen/min_size_of_button_in_toolbar"
+                    android:minHeight="@dimen/min_size_of_button_in_toolbar"
+                    android:padding="@dimen/toolbar_button_padding"
+                    android:src="@drawable/ic_download"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/mainActivityToolbar" />

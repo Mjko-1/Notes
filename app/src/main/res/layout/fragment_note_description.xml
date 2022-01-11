@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.notes.note.NoteDescriptionViewModel" />
+            type="com.example.notes.ui.note.NoteDescriptionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -5,10 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.notes.entities.NoteItem
 import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.ActivityNotesPagerBinding
+import com.example.notes.entities.NoteItem
 import com.example.notes.model.NoteRepositoryImpl
 
 class NotesPagerActivity : AppCompatActivity(), NoteEditor {
@@ -69,10 +69,7 @@ class NotesPagerActivity : AppCompatActivity(), NoteEditor {
 
     private fun initToolbar() {
         binding?.apply {
-            setSupportActionBar(viewpagerActivityToolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-            viewpagerActivityToolbar.setNavigationOnClickListener {
+            buttonBack.setOnClickListener {
                 onBackPressed()
             }
             buttonSave.setOnClickListener {

@@ -14,6 +14,17 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AppBar">
+        <item name="android:background">@color/purple</item>
+    </style>
+
+    <style name="AppBarButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:minWidth">@dimen/min_size_of_button_in_toolbar</item>
+        <item name="android:minHeight">@dimen/min_size_of_button_in_toolbar</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
     <style name="Title">
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>

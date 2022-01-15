@@ -1,5 +1,6 @@
 package com.example.notes.ui.note
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -169,6 +170,10 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
                         showMessage(getString(R.string.saving_successfully))
                     }
                 }
+                requireActivity().sendBroadcast(Intent(INTENT_TAG).apply {
+                    putExtra(TITLE_TAG, editTitle.text.toString())
+                    putExtra(TEXT_TAG, editText.text.toString())
+                })
             }
         }
     }
@@ -183,14 +188,18 @@ class NoteDescriptionFragment : Fragment(), ActionWithNoteFragment {
 
     companion object {
 
+        const val CONFIRMATION_TAG = "confirmation"
+        const val AGREE_TAG = "agree"
+
         private const val NOTE_ITEM_ID = "note_item_id"
         private const val SCREEN_MODE = "mode"
         private const val MODE_EDIT = "mode_edit"
         private const val MODE_ADD = "mode_add"
         private const val MODE_UNKNOWN = ""
 
-        const val CONFIRMATION_TAG = "confirmation"
-        const val AGREE_TAG = "agree"
+        private const val INTENT_TAG = "intent_tag"
+        private const val TITLE_TAG = "title_tag"
+        private const val TEXT_TAG = "text_tag"
 
         fun newInstanceAddNote(): NoteDescriptionFragment = NoteDescriptionFragment().apply {
             arguments = Bundle().apply {

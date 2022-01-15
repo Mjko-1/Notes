@@ -8,7 +8,7 @@ import com.example.notes.model.NoteRepository
 
 class NoteListViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    val noteList: LiveData<List<NoteItem>> = repository.getNoteList()
+    val noteList: LiveData<List<NoteItem>> = repository.getNoteLiveDataList()
 
     private val _displayedNoteList: MutableLiveData<List<NoteItem>> = MutableLiveData()
     val displayedNoteList: LiveData<List<NoteItem>>

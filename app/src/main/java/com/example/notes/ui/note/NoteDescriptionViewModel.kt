@@ -12,7 +12,7 @@ import java.util.*
 
 class NoteDescriptionViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    val noteList: LiveData<List<NoteItem>> = repository.getNoteList()
+    val noteList: LiveData<List<NoteItem>> = repository.getNoteLiveDataList()
 
     private val _noteItem = MutableLiveData<NoteItem>()
     val noteItem: LiveData<NoteItem>

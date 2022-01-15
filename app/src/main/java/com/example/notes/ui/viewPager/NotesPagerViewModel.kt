@@ -8,7 +8,7 @@ import com.example.notes.model.NoteRepository
 
 class NotesPagerViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    val noteList: LiveData<List<NoteItem>> = repository.getNoteList()
+    val noteList: LiveData<List<NoteItem>> = repository.getNoteLiveDataList()
 
     private val _fragmentId = MutableLiveData<Int>()
     val fragmentId: LiveData<Int>

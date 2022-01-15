@@ -10,10 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
+import com.example.notes.MyWorker
 import com.example.notes.databinding.FragmentNoteListBinding
 import com.example.notes.model.NoteRepositoryImpl
 import com.example.notes.ui.edit.EditActivity
 import com.example.notes.ui.viewPager.NotesPagerActivity
+import java.util.concurrent.TimeUnit
 
 class NoteListFragment : Fragment() {
 
@@ -44,6 +48,7 @@ class NoteListFragment : Fragment() {
         setupOnClickListeners()
         setupSearchView()
         observeViewModel()
+        setupWorker()
     }
 
     override fun onDestroyView() {
@@ -119,6 +124,15 @@ class NoteListFragment : Fragment() {
         viewModel.displayedNoteList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+    }
+
+    private fun setupWorker() {
+        WorkManager.getInstance(requireActivity().applicationContext)
+            .enqueue(
+                PeriodicWorkRequest.Builder(
+                    MyWorker::class.java, 15, TimeUnit.MINUTES
+                ).build()
+            )
     }
 
     companion object {

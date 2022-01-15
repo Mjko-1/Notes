@@ -25,5 +25,6 @@
     <string name="empty_note_text">Note is empty</string>
     <string name="saving_successfully">Note saved</string>
     <string name="download">Download from firebase</string>
+    <string name="search_hint">Text search</string>
 
 </resources>

@@ -8,13 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
-import com.example.notes.entities.NoteItem
 import com.example.notes.R
 import com.example.notes.conventions.ActionWithNoteFragment
 import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.FragmentNoteDescriptionBinding
-import com.example.notes.ui.dialogs.SaveConfirmationDialog
+import com.example.notes.entities.NoteItem
 import com.example.notes.model.NoteRepositoryImpl
+import com.example.notes.ui.dialogs.SaveConfirmationDialog
 import com.example.notes.ui.opportunities.shareText
 import com.example.notes.ui.viewPager.NotesPagerActivity
 

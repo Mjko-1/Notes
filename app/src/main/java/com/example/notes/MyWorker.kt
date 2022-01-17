@@ -20,6 +20,9 @@ class MyWorker(
     }
 
     companion object {
+
+        const val WORK_NAME = "Worker"
+
         private const val LOG_FILTER = "FakeBackup"
     }
 }

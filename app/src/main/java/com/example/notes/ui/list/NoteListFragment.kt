@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.PeriodicWorkRequest
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.notes.MyWorker
 import com.example.notes.databinding.FragmentNoteListBinding
@@ -127,11 +128,14 @@ class NoteListFragment : Fragment() {
     }
 
     private fun setupWorker() {
+        val workerRequest =
+            PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES).build()
+
         WorkManager.getInstance(requireActivity().applicationContext)
-            .enqueue(
-                PeriodicWorkRequest.Builder(
-                    MyWorker::class.java, 15, TimeUnit.MINUTES
-                ).build()
+            .enqueueUniquePeriodicWork(
+                MyWorker.WORK_NAME,
+                ExistingPeriodicWorkPolicy.KEEP,
+                workerRequest
             )
     }
 

@@ -3,8 +3,10 @@ package com.example.notes.ui.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.notes.entities.NoteItem
 import com.example.notes.model.NoteRepository
+import kotlinx.coroutines.launch
 
 class NoteListViewModel(private val repository: NoteRepository) : ViewModel() {
 
@@ -15,7 +17,9 @@ class NoteListViewModel(private val repository: NoteRepository) : ViewModel() {
         get() = _displayedNoteList
 
     fun deleteNoteItem(noteItemId: Long) {
-        repository.deleteNote(noteItemId)
+        viewModelScope.launch {
+            repository.deleteNote(noteItemId)
+        }
     }
 
     fun searchNote(text: String) {

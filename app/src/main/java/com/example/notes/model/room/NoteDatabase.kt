@@ -30,7 +30,7 @@ abstract class NoteDatabase : RoomDatabase() {
                 context.applicationContext,
                 NoteDatabase::class.java,
                 DB_NAME
-            ).allowMainThreadQueries().build()
+            ).build()
             INSTANCE = instance
             return instance
         }

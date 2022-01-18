@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.notes.entities.NoteItem
+import androidx.lifecycle.viewModelScope
 import com.example.notes.conventions.Constant
+import com.example.notes.entities.NoteItem
 import com.example.notes.model.NoteRepository
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,8 +29,10 @@ class NoteDescriptionViewModel(private val repository: NoteRepository) : ViewMod
         get() = _textToShare
 
     fun setNoteItem(noteItemId: Long) {
-        val item = repository.getNoteItem(noteItemId)
-        _noteItem.value = item
+        viewModelScope.launch {
+            val item = repository.getNoteItem(noteItemId)
+            _noteItem.value = item
+        }
     }
 
     fun setNoteText(text: String) {
@@ -37,14 +41,18 @@ class NoteDescriptionViewModel(private val repository: NoteRepository) : ViewMod
 
     @SuppressLint("SimpleDateFormat")
     fun addNoteItem(title: String, text: String) {
-        val currentDate = SimpleDateFormat(Constant.DATE_FORMAT).format(Date())
-        repository.addNote(NoteItem(title = title, text = text, dateOfCreation = currentDate))
+        viewModelScope.launch {
+            val currentDate = SimpleDateFormat(Constant.DATE_FORMAT).format(Date())
+            repository.addNote(NoteItem(title = title, text = text, dateOfCreation = currentDate))
+        }
     }
 
     fun editNoteItem(title: String, text: String) {
-        _noteItem.value?.let {
-            val item = it.copy(title = title, text = text)
-            repository.addNote(item)
+        viewModelScope.launch {
+            _noteItem.value?.let {
+                val item = it.copy(title = title, text = text)
+                repository.addNote(item)
+            }
         }
     }
 

@@ -5,9 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.notes.entities.NoteItem
 import com.example.notes.model.retrofit.NoteApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class NetRepository(private val noteApi: NoteApi) {
 
@@ -15,18 +12,15 @@ class NetRepository(private val noteApi: NoteApi) {
     val noteFromNetwork: LiveData<NoteItem>
         get() = _noteFromNetwork
 
-    fun download() {
-        val listCall: Call<NoteItem> = noteApi.getNote(alt = ALT, token = TOKEN)
-
-        listCall.enqueue(object : Callback<NoteItem> {
-            override fun onResponse(call: Call<NoteItem>, response: Response<NoteItem>) {
-                _noteFromNetwork.value = response.body()
-            }
-
-            override fun onFailure(call: Call<NoteItem>, t: Throwable) {
-                Log.e("Error of download", t.message.toString())
-            }
-        })
+    suspend fun download(): Boolean {
+        return try {
+            val listCall: NoteItem = noteApi.getNote(alt = ALT, token = TOKEN)
+            _noteFromNetwork.value = listCall
+            true
+        } catch (e: Exception) {
+            Log.e("Error of download", e.message.toString())
+            false
+        }
     }
 
     companion object {

@@ -1,9 +1,10 @@
 package com.example.notes.ui.about
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.example.notes.R
+import com.example.notes.conventions.ActionWithWebViewFragment
 import com.example.notes.databinding.ActivityAboutBinding
 
 class AboutActivity : AppCompatActivity() {
@@ -14,21 +15,19 @@ class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setupWebView()
         initToolbar()
+        initNavigation()
+
+        if (savedInstanceState == null)
+            openFragment(binding.fragmentContainer.id, WebViewFragment.newInstance())
     }
 
-    override fun onBackPressed() = with(binding) {
-        if (webView.canGoBack()) webView.goBack() else super.onBackPressed()
-    }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    private fun setupWebView() {
-        binding.webView.apply {
-            loadUrl("https://github.com/evdokimovvladislav/Notes")
-            settings.javaScriptEnabled = true
-        }
-        binding.webView.webViewClient = WebViewClient()
+    override fun onBackPressed() {
+        val requireFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+        if (requireFragment is ActionWithWebViewFragment) {
+            if (requireFragment.goBackStatus()) requireFragment.goBackPage()
+            else finish()
+        } else finish()
     }
 
     private fun initToolbar() = with(binding) {
@@ -37,6 +36,33 @@ class AboutActivity : AppCompatActivity() {
 
         aboutActivityToolbar.setNavigationOnClickListener {
             finish()
+        }
+    }
+
+    private fun initNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.buttonWebView -> {
+                    openFragment(binding.fragmentContainer.id, WebViewFragment.newInstance())
+                    true
+                }
+                R.id.buttonLocation -> {
+                    openFragment(binding.fragmentContainer.id, LocationFragment.newInstance())
+                    true
+                }
+                R.id.buttonCustomView -> {
+                    openFragment(binding.fragmentContainer.id, CustomViewFragment.newInstance())
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun openFragment(resId: Int, classFragment: Fragment) {
+        supportFragmentManager.beginTransaction().apply {
+            replace(resId, classFragment)
+            commit()
         }
     }
 }

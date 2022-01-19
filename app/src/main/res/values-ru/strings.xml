@@ -26,5 +26,9 @@
     <string name="saving_successfully">Заметка сохранена</string>
     <string name="download">Скачивание из Firebase</string>
     <string name="search_hint">Поиск по тексту</string>
+    <string name="webView">WebView</string>
+    <string name="current_location">Текущее местоположение</string>
+    <string name="customView">CustomView</string>
+    <string name="get_current_coordinates">Получить текущие кординаты</string>
 
 </resources>

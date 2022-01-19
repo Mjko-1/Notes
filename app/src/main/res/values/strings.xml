@@ -26,5 +26,9 @@
     <string name="saving_successfully">Note saved</string>
     <string name="download">Download from firebase</string>
     <string name="search_hint">Text search</string>
+    <string name="webView">WebView</string>
+    <string name="current_location">Current location</string>
+    <string name="customView">CustomView</string>
+    <string name="get_current_coordinates">Get current coordinates</string>
 
 </resources>

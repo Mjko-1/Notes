@@ -1,7 +1,6 @@
 package com.example.notes.ui.main
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,6 @@ import com.example.notes.conventions.Constant
 import com.example.notes.entities.NoteItem
 import com.example.notes.model.NetRepository
 import com.example.notes.model.NoteRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,7 +20,7 @@ class MainViewModel(
     val noteFromFirebase: LiveData<NoteItem> = networkRepository.noteFromNetwork
 
     fun getNote() {
-        viewModelScope.launch{
+        viewModelScope.launch {
             networkRepository.download()
         }
     }

@@ -39,6 +39,11 @@ class LocationFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
     private fun fetchLocation() {
         val task = fusedLocationProviderClient.lastLocation
 

@@ -31,5 +31,7 @@
     <string name="customView">CustomView</string>
     <string name="get_current_coordinates">Get current coordinates</string>
     <string name="permission_required">Permission required</string>
+    <string name="html_text_example"><![CDATA[<h2>Text to parse</h2><p>Some text from html</p>]]></string>
+    <string name="animation">Animation</string>
 
 </resources>

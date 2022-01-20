@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.example.notes.R
 import com.example.notes.conventions.ActionWithWebViewFragment
 import com.example.notes.databinding.ActivityAboutBinding
+import com.example.notes.ui.about.location.LocationFragment
 
 class AboutActivity : AppCompatActivity() {
 

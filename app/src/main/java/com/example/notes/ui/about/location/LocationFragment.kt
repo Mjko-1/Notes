@@ -1,4 +1,4 @@
-package com.example.notes.ui.about
+package com.example.notes.ui.about.location
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.notes.R
 import com.example.notes.databinding.FragmentLocationBinding
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -19,6 +20,8 @@ class LocationFragment : Fragment() {
     private var _binding: FragmentLocationBinding? = null
     private val binding: FragmentLocationBinding
         get() = _binding ?: throw RuntimeException("FragmentLocationBinding == null")
+
+    private val viewModel by lazy { ViewModelProvider(this)[LocationViewModel::class.java] }
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -34,9 +37,8 @@ class LocationFragment : Fragment() {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        binding.buttonLocation.setOnClickListener {
-            fetchLocation()
-        }
+        observeViewModel()
+        setupOnClickListeners()
     }
 
     override fun onDestroyView() {
@@ -63,22 +65,33 @@ class LocationFragment : Fragment() {
                 ),
                 101
             )
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.permission_required),
-                Toast.LENGTH_LONG
-            ).show()
+            showToast(getString(R.string.permission_required))
             return
         }
         task.addOnSuccessListener {
             if (it != null) {
-                Toast.makeText(
-                    requireContext(),
-                    "${it.latitude}\n${it.longitude}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                viewModel.setCoordinatesText(
+                    latitude = it.latitude.toString(),
+                    longitude = it.longitude.toString()
+                )
             }
         }
+    }
+
+    private fun setupOnClickListeners() {
+        binding.buttonLocation.setOnClickListener {
+            fetchLocation()
+        }
+    }
+
+    private fun observeViewModel() {
+        viewModel.coordinatesToToast.observe(this) { coordinates ->
+            showToast(coordinates)
+        }
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

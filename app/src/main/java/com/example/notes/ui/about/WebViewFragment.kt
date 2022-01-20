@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.notes.conventions.ActionWithWebViewFragment
 import com.example.notes.databinding.FragmentWebViewBinding
@@ -26,16 +25,6 @@ class WebViewFragment : Fragment(), ActionWithWebViewFragment {
         super.onViewCreated(view, savedInstanceState)
 
         setupWebView()
-
-        val callbackList = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                with(binding) {
-                    if (webView.canGoBack()) webView.goBack()
-                    else requireActivity().onBackPressed()
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(callbackList)
     }
 
     override fun onDestroyView() {

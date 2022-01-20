@@ -30,5 +30,6 @@
     <string name="current_location">Current location</string>
     <string name="customView">CustomView</string>
     <string name="get_current_coordinates">Get current coordinates</string>
+    <string name="permission_required">Permission required</string>
 
 </resources>

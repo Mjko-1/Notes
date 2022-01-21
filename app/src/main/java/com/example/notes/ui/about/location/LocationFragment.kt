@@ -10,8 +10,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.notes.R
 import com.example.notes.databinding.FragmentLocationBinding
+import com.example.notes.ui.dialogs.LocationAgreePermissionDialog
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -47,32 +47,21 @@ class LocationFragment : Fragment() {
     }
 
     private fun fetchLocation() {
-        val task = fusedLocationProviderClient.lastLocation
-
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                101
-            )
-            showToast(getString(R.string.permission_required))
-            return
-        }
-        task.addOnSuccessListener {
-            if (it != null) {
-                viewModel.setCoordinatesText(
-                    latitude = it.latitude,
-                    longitude = it.longitude
+        when {
+            checkLocationPermissions() -> {
+                viewModel.requestLocationCoordinates(fusedLocationProviderClient)
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                LocationAgreePermissionDialog().show(parentFragmentManager, "Agree dialog")
+            }
+            else -> {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ),
+                    LOCATION_REQUEST_CODE
                 )
             }
         }
@@ -90,11 +79,21 @@ class LocationFragment : Fragment() {
         }
     }
 
+    private fun checkLocationPermissions(): Boolean = ActivityCompat.checkSelfPermission(
+        requireContext(),
+        Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        requireContext(),
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED
+
     private fun showToast(text: String) {
         Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
+
+        private const val LOCATION_REQUEST_CODE = 101
 
         @JvmStatic
         fun newInstance() = LocationFragment()

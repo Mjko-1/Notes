@@ -33,5 +33,7 @@
     <string name="permission_required">Требуется разрешение</string>
     <string name="html_text_example"><![CDATA[<h2>Text to parse</h2><p>Some text from html</p>]]></string>
     <string name="animation">Анимация</string>
+    <string name="location_agree_dialog_title">Перейти к настройкам приложения?</string>
+    <string name="location_agree_dialog_message">Для поиска текущих координат требуется разрешение местоположения</string>
 
 </resources>

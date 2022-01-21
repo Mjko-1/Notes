@@ -10,7 +10,7 @@ class LocationViewModel: ViewModel() {
     val coordinatesToToast: LiveData<String>
         get() = _coordinatesToToast
 
-    fun setCoordinatesText (latitude: String, longitude: String){
+    fun setCoordinatesText (latitude: Double, longitude: Double){
         _coordinatesToToast.value = "$latitude\n$longitude"
     }
 }

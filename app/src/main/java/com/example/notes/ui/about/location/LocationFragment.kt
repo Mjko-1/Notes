@@ -71,8 +71,8 @@ class LocationFragment : Fragment() {
         task.addOnSuccessListener {
             if (it != null) {
                 viewModel.setCoordinatesText(
-                    latitude = it.latitude.toString(),
-                    longitude = it.longitude.toString()
+                    latitude = it.latitude,
+                    longitude = it.longitude
                 )
             }
         }

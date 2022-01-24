@@ -35,5 +35,7 @@
     <string name="animation">Анимация</string>
     <string name="location_agree_dialog_title">Перейти к настройкам приложения?</string>
     <string name="location_agree_dialog_message">Для поиска текущих координат требуется разрешение местоположения</string>
+    <string name="settings">Настройки</string>
+    <string name="permission_denied">Включите разрешение местоположения в настройках приложения</string>
 
 </resources>

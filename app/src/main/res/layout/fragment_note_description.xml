@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/Widget.MaterialComponents.ActionBar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple"
+        app:menu="@menu/edit_toolbar_menu" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_edit_activity"
+                android:layout_marginTop="@dimen/margin_edit_activity"
+                android:layout_marginRight="@dimen/margin_edit_activity"
+                android:background="@android:color/transparent"
+                android:gravity="start|top"
+                android:hint="@string/title"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:minHeight="@dimen/edit_height"
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_edit_activity"
+                android:layout_marginTop="@dimen/margin_edit_activity"
+                android:layout_marginRight="@dimen/margin_edit_activity"
+                android:background="@android:color/transparent"
+                android:gravity="start|top"
+                android:hint="@string/text"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:minHeight="@dimen/edit_height"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:id="@+id/textDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/margin_text_in_main_activity"
+                android:textColor="@color/black"
+                android:textSize="@dimen/date_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/date_for_tools_text" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

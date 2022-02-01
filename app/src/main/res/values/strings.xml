@@ -3,10 +3,17 @@
 
     <string name="title">Title</string>
     <string name="text">Text</string>
-    <string name="edit_note">Edit note</string>
+    <string name="edit_activity_actionbar_text">Edit note</string>
+    <string name="main_activity_actionbar_text">Your notes</string>
+    <string name="about_activity_actionbar_text">About application</string>
 
     <string name="empty_text_massage">Enter the text</string>
     <string name="share">Share</string>
     <string name="save">Save</string>
+    <string name="date_for_tools_text">28.07.1987</string>
+    <string name="add_note">Add note</string>
+    <string name="about">About</string>
+    <string name="about_app">About application</string>
+    <string name="app_notes_fot_internship">App Notesfot internship</string>
 
 </resources>

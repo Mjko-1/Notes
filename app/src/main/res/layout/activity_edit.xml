@@ -43,6 +43,5 @@
             android:minHeight="@dimen/edit_height"
             android:textSize="@dimen/text_size" />
 
-
     </LinearLayout>
 </ScrollView>

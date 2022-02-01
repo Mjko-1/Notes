@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Notes">
-
         <activity
-            android:name=".main.MainActivity"
+            android:name=".about.AboutActivity"
             android:exported="true" />
-
         <activity
-
             android:name=".edit.view.EditActivity"
+            android:exported="true" />
+        <activity
+            android:name=".main.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

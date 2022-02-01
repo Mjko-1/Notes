@@ -1,12 +1,22 @@
 package com.example.notes.edit.presenter
 
+import android.annotation.SuppressLint
+import com.example.notes.Constant
+import com.example.notes.NoteItem
 import com.example.notes.edit.EditNote
+import com.example.notes.model.NoteListRepository
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditPresenter(private val view: EditNote.View) : EditNote.Presenter {
 
+    @SuppressLint("SimpleDateFormat")
     override fun saveNote(title: String, text: String) {
         if (text.isEmpty()) view.showMessageEmpty()
         else {
+            val currentDate = SimpleDateFormat(Constant.DATE_FORMAT).format(Date())
+
+            NoteListRepository.addNoteToList(NoteItem(title, text, currentDate))
             val titleInMassage = if (title.isEmpty()) "Note" else title
             view.showMessage("$titleInMassage saved")
         }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.notes.R
 import com.example.notes.app.MyApp
 import com.example.notes.databinding.ActivityMainBinding
 import com.example.notes.model.NetRepository
@@ -14,13 +15,12 @@ import com.example.notes.ui.list.NoteListFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(
@@ -38,19 +38,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() = with(binding) {
-        setSupportActionBar(mainActivityToolbar)
-
-        buttonDownload.setOnClickListener {
-            viewModel.getNote()
-            if (viewModel.noteFromFirebase.value == null) {
-                viewModel.noteFromFirebase.observe(this@MainActivity) {
-                    viewModel.saveNote(it)
+        mainActivityToolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.buttonDownload -> {
+                    viewModel.getNote()
+                    if (viewModel.noteFromFirebase.value == null) {
+                        viewModel.noteFromFirebase.observe(this@MainActivity) { note ->
+                            viewModel.saveNote(note)
+                        }
+                    }
+                    true
                 }
+                R.id.buttonAbout -> {
+                    startActivity(Intent(this@MainActivity, AboutActivity::class.java))
+                    true
+                }
+                else -> false
             }
-        }
-
-        buttonAbout.setOnClickListener {
-            startActivity(Intent(this@MainActivity, AboutActivity::class.java))
         }
     }
 

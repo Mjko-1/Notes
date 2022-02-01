@@ -7,11 +7,11 @@ interface NoteRepository {
 
     fun getNoteLiveDataList(): LiveData<List<NoteItem>>
 
-    fun getNoteList(): List<NoteItem>
+    suspend fun getNoteList(): List<NoteItem>
 
-    fun getNoteItem(noteItemId: Long): NoteItem
+    suspend fun getNoteItem(noteItemId: Long): NoteItem
 
-    fun addNote(note: NoteItem)
+    suspend fun addNote(note: NoteItem)
 
-    fun deleteNote(id: Long)
+    suspend fun deleteNote(id: Long)
 }

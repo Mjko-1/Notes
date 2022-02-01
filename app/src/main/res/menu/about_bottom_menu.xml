@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/buttonWebView"
+        android:icon="@drawable/ic_web"
+        android:title="@string/webView" />
+
+    <item
+        android:id="@+id/buttonLocation"
+        android:icon="@drawable/ic_location"
+        android:title="@string/current_location" />
+
+    <item
+        android:id="@+id/buttonCustomView"
+        android:icon="@drawable/ic_custom_view"
+        android:title="@string/customView" />
+</menu>

@@ -12,17 +12,18 @@ class NoteRepositoryImpl(context: Context) : NoteRepository {
     override fun getNoteLiveDataList(): LiveData<List<NoteItem>> =
         noteDB.noteDao().getNoteLiveDataList()
 
-    override fun getNoteList() = noteDB.noteDao().getNoteList()
 
-    override fun getNoteItem(noteItemId: Long): NoteItem {
-        return noteDB.noteDao().getNote(noteItemId)
-    }
+    override suspend fun getNoteList(): List<NoteItem> = noteDB.noteDao().getNoteList()
 
-    override fun addNote(note: NoteItem) {
+    override suspend fun getNoteItem(noteItemId: Long): NoteItem =
+        noteDB.noteDao().getNote(noteItemId)
+
+
+    override suspend fun addNote(note: NoteItem) {
         noteDB.noteDao().insertNote(note)
     }
 
-    override fun deleteNote(id: Long) {
+    override suspend fun deleteNote(id: Long) {
         noteDB.noteDao().deleteNote(id)
     }
 }

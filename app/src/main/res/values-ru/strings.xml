@@ -26,5 +26,16 @@
     <string name="saving_successfully">Заметка сохранена</string>
     <string name="download">Скачивание из Firebase</string>
     <string name="search_hint">Поиск по тексту</string>
+    <string name="webView">WebView</string>
+    <string name="current_location">Текущее местоположение</string>
+    <string name="customView">CustomView</string>
+    <string name="get_current_coordinates">Получить текущие кординаты</string>
+    <string name="permission_required">Требуется разрешение</string>
+    <string name="html_text_example"><![CDATA[<h2>Text to parse</h2><p>Some text from html</p>]]></string>
+    <string name="animation">Анимация</string>
+    <string name="location_agree_dialog_title">Перейти к настройкам приложения?</string>
+    <string name="location_agree_dialog_message">Для поиска текущих координат требуется разрешение местоположения</string>
+    <string name="settings">Настройки</string>
+    <string name="permission_denied">Включите разрешение местоположения в настройках приложения</string>
 
 </resources>

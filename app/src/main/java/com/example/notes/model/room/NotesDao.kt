@@ -11,14 +11,14 @@ interface NotesDao {
     fun getNoteLiveDataList(): LiveData<List<NoteItem>>
 
     @Query("SELECT * FROM notes_table")
-    fun getNoteList(): List<NoteItem>
+    suspend fun getNoteList(): List<NoteItem>
 
     @Query("SELECT * FROM notes_table WHERE id=(:id)")
-    fun getNote(id: Long): NoteItem
+    suspend fun getNote(id: Long): NoteItem
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNote(note: NoteItem)
+    suspend fun insertNote(note: NoteItem)
 
     @Query("DELETE FROM notes_table WHERE id=(:id)")
-    fun deleteNote(id: Long)
+    suspend fun deleteNote(id: Long)
 }

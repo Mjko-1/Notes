@@ -1,6 +1,7 @@
 package com.example.notes.ui.list
 
 import com.example.notes.model.NoteRepository
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +22,7 @@ class NoteListViewModelTest {
     }
 
     @Test
-    fun testDeleteNote() {
+    fun testDeleteNote() = runBlocking{
         viewModel.deleteNoteItem(1)
         Mockito.verify(repository).deleteNote(1)
     }

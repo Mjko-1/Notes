@@ -2,7 +2,7 @@ package com.example.notes
 
 import android.content.Context
 import android.util.Log
-import androidx.work.Worker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.notes.model.NoteRepository
 import com.example.notes.model.NoteRepositoryImpl
@@ -10,11 +10,11 @@ import com.example.notes.model.NoteRepositoryImpl
 class MyWorker(
     context: Context,
     workerParameters: WorkerParameters,
-) : Worker(context, workerParameters) {
+) : CoroutineWorker(context, workerParameters) {
 
     private val repository: NoteRepository = NoteRepositoryImpl(applicationContext)
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         Log.d(LOG_FILTER, "Сохранено заметок: ${repository.getNoteList().size}")
         return Result.success()
     }

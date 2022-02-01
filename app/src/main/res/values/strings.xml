@@ -26,5 +26,16 @@
     <string name="saving_successfully">Note saved</string>
     <string name="download">Download from firebase</string>
     <string name="search_hint">Text search</string>
+    <string name="webView">WebView</string>
+    <string name="current_location">Current location</string>
+    <string name="customView">CustomView</string>
+    <string name="get_current_coordinates">Get current coordinates</string>
+    <string name="permission_required">Permission required</string>
+    <string name="html_text_example"><![CDATA[<h2>Text to parse</h2><p>Some text from html</p>]]></string>
+    <string name="animation">Animation</string>
+    <string name="location_agree_dialog_title">Go to app settings?</string>
+    <string name="location_agree_dialog_message">Location permission is required to find current coordinates</string>
+    <string name="settings">Settings</string>
+    <string name="permission_denied">Enable location permission in app settings</string>
 
 </resources>

@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Заметки</string>
+
+    <string name="title">Заголовок</string>
+    <string name="text">Текст</string>
+    <string name="edit_activity_toolbar_text">Редактирование заметки</string>
+    <string name="main_activity_toolbar_text">Ваши заметки</string>
+    <string name="about_activity_toolbar_text">О приложении</string>
+    <string name="notes_pager_activity_toolbar_text">View pager</string>
+
+    <string name="empty_text_massage">Введите текст</string>
+    <string name="share">Поделиться</string>
+    <string name="save">Сохранить</string>
+    <string name="date_for_tools_text">28.07.1987</string>
+    <string name="add_note">Добавить заметку</string>
+    <string name="about">О</string>
+    <string name="about_app">О приложении</string>
+    <string name="app_notes_fot_internship">Приложение \"Заметки\" для стажировки</string>
+    <string name="viewpager">viewPager</string>
+    <string name="open_viewpager_activity">Открыть экран viewPager</string>
+    <string name="edit_dialog_massage">Вы хотите сохранить изменения?</string>
+    <string name="positive_button_text">OK</string>
+    <string name="negative_button_text">Отмена</string>
+    <string name="note_unchanged">Заметка не изменена</string>
+    <string name="empty_note_text">Заметка пуста</string>
+    <string name="saving_successfully">Заметка сохранена</string>
+    <string name="download">Скачивание из Firebase</string>
+    <string name="search_hint">Поиск по тексту</string>
+    <string name="webView">WebView</string>
+    <string name="current_location">Текущее местоположение</string>
+    <string name="customView">CustomView</string>
+    <string name="get_current_coordinates">Получить текущие кординаты</string>
+    <string name="permission_required">Требуется разрешение</string>
+    <string name="html_text_example"><![CDATA[<h2>Text to parse</h2><p>Some text from html</p>]]></string>
+    <string name="animation">Анимация</string>
+    <string name="location_agree_dialog_title">Перейти к настройкам приложения?</string>
+    <string name="location_agree_dialog_message">Для поиска текущих координат требуется разрешение местоположения</string>
+    <string name="settings">Настройки</string>
+    <string name="permission_denied">Включите разрешение местоположения в настройках приложения</string>
+
+</resources>

@@ -16,10 +16,10 @@
             android:name=".about.AboutActivity"
             android:exported="true" />
         <activity
-            android:name=".edit.view.EditActivity"
+            android:name=".edit.EditActivity"
             android:exported="true" />
         <activity
-            android:name=".main.view.MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -13,6 +13,11 @@ data class NoteItem(
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "text") var text: String,
     @ColumnInfo(name = "date") val dateOfCreation: String,
-) : Parcelable
+) : Parcelable{
+
+    companion object{
+        const val ID_UNKNOWN: Long = -1
+    }
+}
 
 

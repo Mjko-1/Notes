@@ -10,20 +10,20 @@ import com.example.notes.NoteItemDiffCallback
 import com.example.notes.R
 import com.example.notes.databinding.NoteItemBinding
 
-class YourNotesAdapter(private var onClick: (note: NoteItem) -> Unit) :
+class YourNotesAdapter :
     ListAdapter<NoteItem, YourNotesAdapter.NoteHolder>(NoteItemDiffCallback()) {
+
+    var onClick: ((noteItemId: Long) -> Unit)? = null
 
     inner class NoteHolder(item: View) : RecyclerView.ViewHolder(item) {
 
         private val binding = NoteItemBinding.bind(item)
 
         fun bind(note: NoteItem) = with(binding) {
-            textTitle.text = note.title
-            textText.text = note.text
-            textData.text = note.dateOfCreation
+            noteItem = note
 
             cardViewNote.setOnClickListener {
-                onClick(note)
+                onClick?.invoke(note.id)
             }
         }
     }

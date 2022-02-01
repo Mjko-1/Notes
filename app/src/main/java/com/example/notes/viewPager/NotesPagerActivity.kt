@@ -1,24 +1,42 @@
 package com.example.notes.viewPager
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
+import androidx.lifecycle.ViewModelProvider
+import com.example.notes.NoteItem
 import com.example.notes.conventions.ActionWithNoteFragment
+import com.example.notes.conventions.NoteEditor
 import com.example.notes.databinding.ActivityNotesPagerBinding
-import com.example.notes.model.NoteDatabase
+import com.example.notes.model.room.NoteRepositoryImpl
 
-class NotesPagerActivity : AppCompatActivity(), NotesPager.View {
+class NotesPagerActivity : AppCompatActivity(), NoteEditor {
+
+    override var currentFragment: ActionWithNoteFragment? = null
 
     private var binding: ActivityNotesPagerBinding? = null
 
+    private lateinit var viewModel: NotesPagerViewModel
+
     private lateinit var adapter: ViewPagerAdapter
 
-    var currentFragment: ActionWithNoteFragment? = null
+    private var startState = true
+
+    private var noteItemId = NoteItem.ID_UNKNOWN
+    private var startFragmentItemId = FRAGMENT_ID_UNKNOWN
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNotesPagerBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        viewModel = ViewModelProvider(
+            this,
+            NotesPagerViewModelFactory(NoteRepositoryImpl(this))
+        )[NotesPagerViewModel::class.java]
+
+        noteItemId = intent.getLongExtra(EXTRA_NOTE_ITEM_ID, NoteItem.ID_UNKNOWN)
 
         initViewPager()
         initToolbar()
@@ -31,6 +49,24 @@ class NotesPagerActivity : AppCompatActivity(), NotesPager.View {
         super.onDestroy()
     }
 
+    private fun initViewPager() {
+        adapter = ViewPagerAdapter(this)
+
+        viewModel.noteList.observe(this) {
+            updateData(it)
+            if (startState) {
+                findStartFragmentIndex()
+                binding?.viewPager2?.setCurrentItem(startFragmentItemId, false)
+                startState = false
+            }
+        }
+        binding?.viewPager2?.adapter = adapter
+    }
+
+    private fun updateData(noteList: List<NoteItem>) {
+        adapter.updateData(noteList)
+    }
+
     private fun initToolbar() {
         binding?.apply {
             setSupportActionBar(viewpagerActivityToolbar)
@@ -40,30 +76,29 @@ class NotesPagerActivity : AppCompatActivity(), NotesPager.View {
                 onBackPressed()
             }
             buttonSave.setOnClickListener {
-                currentFragment?.saveNote()
+                saveNote()
             }
             buttonShare.setOnClickListener {
-                currentFragment?.shareNoteText()
+                shareText()
             }
         }
     }
 
-    private fun initViewPager() {
-        val presenter = ViewPagerPresenter(this, NoteDatabase.getInstance(this))
+    private fun findStartFragmentIndex() {
+        viewModel.setStartFragmentItemId(noteItemId)
+        viewModel.fragmentId.observe(this) {
+            startFragmentItemId = it
+        }
+    }
 
-        adapter = ViewPagerAdapter(this, presenter.getNoteData())
-        binding?.viewPager2?.adapter = adapter
+    companion object {
 
-        binding?.viewPager2?.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
+        private const val EXTRA_NOTE_ITEM_ID = "extra_note_item_id"
+        private const val FRAGMENT_ID_UNKNOWN = -1
 
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-
-                currentFragment = supportFragmentManager
-                    .findFragmentByTag("f" + binding?.viewPager2?.currentItem)
-                        as ActionWithNoteFragment
+        fun newIntentEditItem(context: Context, noteItemId: Long): Intent =
+            Intent(context, NotesPagerActivity::class.java).apply {
+                putExtra(EXTRA_NOTE_ITEM_ID, noteItemId)
             }
-        })
     }
 }

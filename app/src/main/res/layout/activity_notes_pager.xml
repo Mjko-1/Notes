@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".viewPager.NotesPagerActivity">
+        tools:context=".ui.viewPager.NotesPagerActivity">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager2"
@@ -28,22 +28,19 @@
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/viewpagerActivityToolbar"
+                    style="@style/AppBar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/purple"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:title="@string/notes_pager_activity_toolbar_text" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/buttonSave"
+                    style="@style/AppBarButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_end_last_button_in_toolbar"
-                    android:background="@android:color/transparent"
                     android:contentDescription="@string/save"
-                    android:minWidth="@dimen/min_size_of_button_in_toolbar"
-                    android:minHeight="@dimen/min_size_of_button_in_toolbar"
                     android:padding="@dimen/toolbar_button_padding"
                     android:src="@drawable/ic_save"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -52,17 +49,27 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/buttonShare"
+                    style="@style/AppBarButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_end_second_button_in_toolbar"
-                    android:background="@android:color/transparent"
                     android:contentDescription="@string/share"
-                    android:minWidth="@dimen/min_size_of_button_in_toolbar"
-                    android:minHeight="@dimen/min_size_of_button_in_toolbar"
                     android:padding="@dimen/toolbar_button_padding"
                     android:src="@drawable/ic_share"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/viewpagerActivityToolbar" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/buttonBack"
+                    style="@style/AppBarButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/share"
+                    android:padding="@dimen/toolbar_button_padding"
+                    android:src="@drawable/ic_back"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/viewpagerActivityToolbar"
                     app:layout_constraintTop_toTopOf="@+id/viewpagerActivityToolbar" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

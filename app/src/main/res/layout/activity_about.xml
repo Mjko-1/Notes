@@ -7,24 +7,23 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".about.AboutActivity">
+        tools:context=".ui.about.AboutActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/aboutActivityToolbar"
+            style="@style/AppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/purple"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/about_activity_toolbar_text" />
 
         <TextView
             android:id="@+id/textView"
+            style="@style/Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_notes_fot_internship"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

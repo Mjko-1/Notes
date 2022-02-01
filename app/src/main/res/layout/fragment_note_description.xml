@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.notes.note.NoteDescriptionViewModel" />
+            type="com.example.notes.ui.note.NoteDescriptionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,21 +30,19 @@
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/descriptionFragmentToolbar"
+                    style="@style/AppBar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/purple"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/buttonSave"
+                    style="@style/AppBarButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_end_last_button_in_toolbar"
-                    android:background="@android:color/transparent"
                     android:contentDescription="@string/save"
-                    android:minWidth="@dimen/min_size_of_button_in_toolbar"
-                    android:minHeight="@dimen/min_size_of_button_in_toolbar"
                     android:padding="@dimen/toolbar_button_padding"
                     android:src="@drawable/ic_save"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -53,13 +51,11 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/buttonShare"
+                    style="@style/AppBarButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_end_second_button_in_toolbar"
-                    android:background="@android:color/transparent"
                     android:contentDescription="@string/share"
-                    android:minWidth="@dimen/min_size_of_button_in_toolbar"
-                    android:minHeight="@dimen/min_size_of_button_in_toolbar"
                     android:padding="@dimen/toolbar_button_padding"
                     android:src="@drawable/ic_share"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -68,12 +64,10 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/buttonBack"
+                    style="@style/AppBarButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
                     android:contentDescription="@string/share"
-                    android:minWidth="@dimen/min_size_of_button_in_toolbar"
-                    android:minHeight="@dimen/min_size_of_button_in_toolbar"
                     android:padding="@dimen/toolbar_button_padding"
                     android:src="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -129,13 +123,12 @@
 
                 <TextView
                     android:id="@+id/textDate"
+                    style="@style/Date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_margin="@dimen/margin_text_in_main_activity"
                     android:text="@{viewModel.noteItem.dateOfCreation}"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/date_text_size"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/date_for_tools_text" />

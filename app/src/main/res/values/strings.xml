@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Notes</string>
+
     <string name="title">Title</string>
     <string name="text">Text</string>
+    <string name="edit_note">Edit note</string>
 
-    <string name="empty_title_massage">Enter the title name</string>
+    <string name="empty_text_massage">Enter the text</string>
+    <string name="share">Share</string>
     <string name="save">Save</string>
+
 </resources>

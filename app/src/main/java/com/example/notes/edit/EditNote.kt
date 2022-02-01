@@ -4,10 +4,12 @@ interface EditNote {
 
     interface View {
         fun showMessage(massage: String)
-        fun showMassageEmpty()
+        fun showMessageEmpty()
+        fun shareText(noteText: String)
     }
 
     interface Presenter {
         fun saveNote(title: String, text: String)
+        fun shareNote(title: String, text: String)
     }
 }

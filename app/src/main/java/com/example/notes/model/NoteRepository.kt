@@ -5,7 +5,9 @@ import com.example.notes.entities.NoteItem
 
 interface NoteRepository {
 
-    fun getNoteList(): LiveData<List<NoteItem>>
+    fun getNoteLiveDataList(): LiveData<List<NoteItem>>
+
+    fun getNoteList(): List<NoteItem>
 
     fun getNoteItem(noteItemId: Long): NoteItem
 

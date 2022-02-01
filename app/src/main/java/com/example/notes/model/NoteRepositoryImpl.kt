@@ -9,7 +9,10 @@ class NoteRepositoryImpl(context: Context) : NoteRepository {
 
     private val noteDB = NoteDatabase.getInstance(context)
 
-    override fun getNoteList(): LiveData<List<NoteItem>> = noteDB.noteDao().getNoteList()
+    override fun getNoteLiveDataList(): LiveData<List<NoteItem>> =
+        noteDB.noteDao().getNoteLiveDataList()
+
+    override fun getNoteList() = noteDB.noteDao().getNoteList()
 
     override fun getNoteItem(noteItemId: Long): NoteItem {
         return noteDB.noteDao().getNote(noteItemId)

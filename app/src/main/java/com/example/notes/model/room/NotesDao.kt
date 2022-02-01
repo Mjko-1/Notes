@@ -8,7 +8,10 @@ import com.example.notes.entities.NoteItem
 interface NotesDao {
 
     @Query("SELECT * FROM notes_table")
-    fun getNoteList(): LiveData<List<NoteItem>>
+    fun getNoteLiveDataList(): LiveData<List<NoteItem>>
+
+    @Query("SELECT * FROM notes_table")
+    fun getNoteList(): List<NoteItem>
 
     @Query("SELECT * FROM notes_table WHERE id=(:id)")
     fun getNote(id: Long): NoteItem

@@ -5,18 +5,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.example.notes.MyWorker
 import com.example.notes.databinding.FragmentNoteListBinding
-import com.example.notes.ui.edit.EditActivity
 import com.example.notes.model.NoteRepositoryImpl
+import com.example.notes.ui.edit.EditActivity
 import com.example.notes.ui.viewPager.NotesPagerActivity
+import java.util.concurrent.TimeUnit
 
 class NoteListFragment : Fragment() {
 
-    private var binding: FragmentNoteListBinding? = null
+    private var _binding: FragmentNoteListBinding? = null
+    private val binding: FragmentNoteListBinding
+        get() = _binding ?: throw RuntimeException("FragmentNoteListBinding == null")
 
     private lateinit var viewModel: NoteListViewModel
 
@@ -26,7 +34,7 @@ class NoteListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = FragmentNoteListBinding.inflate(inflater).also {
-        binding = it
+        _binding = it
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,18 +47,19 @@ class NoteListFragment : Fragment() {
 
         setupRecyclerView()
         setupOnClickListeners()
+        setupSearchView()
         observeViewModel()
+        setupWorker()
     }
 
     override fun onDestroyView() {
-        binding = null
+        _binding = null
         super.onDestroyView()
     }
 
     private fun setupRecyclerView() {
-        binding?.apply {
+        binding.apply {
             adapter = YourNotesAdapter()
-
             list.adapter = adapter
 
             setupClickListenerToAdapter()
@@ -86,17 +95,48 @@ class NoteListFragment : Fragment() {
     }
 
     private fun setupOnClickListeners() {
-        binding?.apply {
+        binding.apply {
             fabAddNote.setOnClickListener {
                 startActivity(Intent(requireContext(), EditActivity::class.java))
             }
         }
     }
 
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                viewModel.searchNote(p0 as String)
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                viewModel.searchNote(p0 as String)
+                return true
+            }
+        })
+    }
+
     private fun observeViewModel() {
         viewModel.noteList.observe(viewLifecycleOwner) {
+            viewModel.updateList(it)
+        }
+
+        viewModel.displayedNoteList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+    }
+
+    private fun setupWorker() {
+        val workerRequest =
+            PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES).build()
+
+        WorkManager.getInstance(requireActivity().applicationContext)
+            .enqueueUniquePeriodicWork(
+                MyWorker.WORK_NAME,
+                ExistingPeriodicWorkPolicy.KEEP,
+                workerRequest
+            )
     }
 
     companion object {
